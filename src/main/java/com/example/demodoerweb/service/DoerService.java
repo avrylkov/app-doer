@@ -43,7 +43,6 @@ public class DoerService {
 
     private static final String sqlNextval = "SELECT doer_seq.nextval FROM DUAL";
 
-
     public void insertDoer(Long id, String name, String surName) {
         jdbcTemplate.update(sqlInsertDoer, id, name, surName);
 
