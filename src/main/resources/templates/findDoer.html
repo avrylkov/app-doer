@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="cssDesing.css"/>
+    <title>Doer</title>
+
+</head>
+
+<body>
+<div align="center">
+<form name="addQuote" action="addQuote" method="POST" >
+    <p>Фамилия</p>
+    <input   style="border: 3px #00B344 solid" name="doerName" type="text">
+    <p>Имя</p>
+    <input  style="border: 3px #00B344 solid" name="doerSurname" type="text">
+    <p>Текст<Br>
+        <textarea   style="border: 3px #00B344 solid" name="quote" cols="40" rows="3"></textarea></p>
+
+    <input  type="submit" value="Сохранить">
+</form>
+<span th:text = "${doerName}"/>
+</div>
+
+<div align="center">
+    <a  href="/quotePage">Найти цитату</a>
+</div>
+
+</body>
+
+</html>

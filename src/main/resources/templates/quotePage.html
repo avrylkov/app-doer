@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quote</title>
+</head>
+
+<body>
+
+<div>
+    <form name="doer_form" action="quote" method="POST">
+        <input  name="doer" type="text">
+        <input  type="submit" value="Искать">
+    </form>
+</div>
+
+<div>
+    <a  href="/findDoer">Добавить цитату</a>
+</div>
+
+<div>
+    <span th:text="${name}" />
+</div>
+<ul >
+
+    <li th:each="quote: ${quotes}" th:text="${quote.text}"></li>
+</ul>
+
+
+</body>
+</html>
+
