@@ -23,7 +23,7 @@ public class DoerService {
     private static final String sqlSelectQuote = "insert into quote\n" +
             "  (id, id_doer, text)\n" +
             "values\n" +
-            " (quote_seq.nextval, ?, ?)";
+            " ((select nextval('QUOTE_SEQ')), ?, ?)";
 
     private static final String sqlInsertDoer = "insert into doer(id,name,surname)\n" +
             "values (?,?,?)";
@@ -41,7 +41,7 @@ public class DoerService {
 
     }
 
-    private static final String sqlNextval = "SELECT doer_seq.nextval FROM DUAL";
+    private static final String sqlNextval = "select nextval('DOER_SEQ')";
 
     public void insertDoer(Long id, String name, String surName) {
         jdbcTemplate.update(sqlInsertDoer, id, name, surName);
@@ -57,6 +57,6 @@ public class DoerService {
     }
 
     public void testConnection() {
-        jdbcTemplate.queryForList("select * from test");
+        jdbcTemplate.queryForList("select * from doer");
     }
 }
