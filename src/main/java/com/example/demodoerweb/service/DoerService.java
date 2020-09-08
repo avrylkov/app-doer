@@ -58,5 +58,15 @@ public class DoerService {
 
     public void testConnection() {
         jdbcTemplate.queryForList("select * from doer");
+
+    }
+
+    private static final String sqlShowDoer = "select name,surname,id  from doer limit 10;";
+    public List<Doer> showDoer() {
+        List<Doer> doers = jdbcTemplate.query(sqlShowDoer, BeanPropertyRowMapper.newInstance(Doer.class));
+        doers.forEach(d -> {
+           d.setName(String.format("<a href=\"/toDoer?id=%s\"> %s  %s</a>", d.getId(), d.getName(), d.getSurName()));
+        });
+        return doers;
     }
 }

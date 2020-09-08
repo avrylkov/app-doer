@@ -4,30 +4,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="cssDesing.css"/>
     <title>Doer</title>
-
 </head>
 
 <body>
-<div align="center">
-<form name="addQuote" action="addQuote" method="POST" >
-    <p>Фамилия</p>
-    <input   style="border: 3px #00B344 solid" name="doerName" type="text">
-    <p>Имя</p>
-    <input  style="border: 3px #00B344 solid" name="doerSurname" type="text">
-    <p>Текст<Br>
-        <textarea   style="border: 3px #00B344 solid" name="quote" cols="40" rows="3"></textarea></p>
 
-    <input  type="submit" value="Сохранить">
-</form>
-<span th:text = "${doerName}"/>
+<div>
+    <form name="doer_form" action="quote" method="POST">
+        <input  name="doer" type="text">
+        <input  type="submit" value="Искать">
+    </form>
 </div>
 
-<div align="center">
-    <a  href="/quotePage">Найти цитату</a>
+<div>
+    <a  href="/insertDoer?id=100">Добавить цитату</a>
 </div>
 
-</body>
 
-</html>
+<ul>
+    <!--li th:each="quote: ${quotes}" th:text="${quote.text}"></li-->
+
+    <li th:each="doer: ${doers}" th:utext="${doer.name}">
+    </li>
+
+    </a>
+</ul>
+
+ </body>
+ </html>

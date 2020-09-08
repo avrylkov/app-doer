@@ -3,24 +3,30 @@ package com.example.demodoerweb.service;
 import model.Doer;
 import model.QuoteDoer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
 public class DoerController {
 
     @Autowired
-    public DoerService doerService;
+    private DoerService doerService;
 
     @GetMapping("/")
-    public String getQuote() {
-        return "quotePage";
+    public String mainPage() {
+        return "mainPage";
+    }
+
+    @GetMapping("/findDoer")
+    public String mainShowDoer(Model model) {
+        List<Doer> doers = doerService.showDoer();
+        model.addAttribute("doers", doers);
+        return "findDoer";
     }
 
     @RequestMapping(value = "quote", method = RequestMethod.POST)
@@ -40,9 +46,14 @@ public class DoerController {
         return "quotePage";
     }
 
-    @GetMapping("/findDoer")
-    public String getFindDoer() {
-        return "findDoer";
+
+    //@GetMapping("/findDoer")
+   // public String getFindDoer() {
+      //  return "insertDoer";
+   // }
+    @GetMapping("/insertDoer")
+    public String InsertDoer() {
+        return "insertDoer";
     }
 
     @GetMapping("/quotePage")
@@ -69,10 +80,31 @@ public class DoerController {
             model.addAttribute("doerName", "Добавлен - " + doer);
         }
 
-        return "findDoer";
-        //List<Doer> doers = doerService.getDoer(name,surname,id);
-
+        return "insertDoer";
     }
+
+    @RequestMapping(value = "/toDoer", method = RequestMethod.GET)
+    public String toDoer(@RequestParam(name = "id") String id) {
+        System.out.println(id);
+        return "jsTest";
+    }
+
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test() {
+      return "jsTest";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/testSearch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Doer> testSearch(@RequestParam(name = "chars") String chars) {
+        Doer doer = new Doer();
+        doer.setId(1L);
+        doer.setName("Alex");
+        doer.setSurName(chars);
+        return Arrays.asList(doer);
+    }
+
 }
 
 

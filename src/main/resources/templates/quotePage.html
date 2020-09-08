@@ -17,17 +17,17 @@
 </div>
 
 <div>
-    <a  href="/findDoer">Добавить цитату</a>
+    <a  href="/insertDoer">Добавить цитату</a>
 </div>
 
 <div>
     <span th:text="${name}" />
 </div>
+
 <ul >
 
     <li th:each="quote: ${quotes}" th:text="${quote.text}"></li>
 </ul>
-
 
 </body>
 </html>
