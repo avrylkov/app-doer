@@ -7,7 +7,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DoerService {
@@ -37,7 +39,7 @@ public class DoerService {
             " where upper (surName)  = ? AND upper (name)= ?";
 
     public List<Doer> getDoer(String surName, String name) {
-        return jdbcTemplate.query(sqlFindDoer, new Object[]{surName.toUpperCase(), name.toUpperCase()}, BeanPropertyRowMapper.newInstance(Doer.class));
+        return jdbcTemplate.query(sqlFindDoer, new Object[] {surName.toUpperCase(), name.toUpperCase()}, BeanPropertyRowMapper.newInstance(Doer.class));
 
     }
 
@@ -61,12 +63,14 @@ public class DoerService {
 
     }
 
-    private static final String sqlShowDoer = "select name,surname,id  from doer limit 10;";
+    private static final String sqlShowDoer = "select name,surname,id  from doer limit 10";
     public List<Doer> showDoer() {
-        List<Doer> doers = jdbcTemplate.query(sqlShowDoer, BeanPropertyRowMapper.newInstance(Doer.class));
-        doers.forEach(d -> {
-           d.setName(String.format("<a href=\"/toDoer?id=%s\"> %s  %s</a>", d.getId(), d.getName(), d.getSurName()));
-        });
-        return doers;
+        return jdbcTemplate.query(sqlShowDoer, BeanPropertyRowMapper.newInstance(Doer.class));
+    }
+
+    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where surname || name like ?";
+
+    public  List<Doer> searchDoer(String name) {
+        return  jdbcTemplate.query(sqlSearchDoer, new Object[] {"%" + name + "%"}, BeanPropertyRowMapper.newInstance(Doer.class));
     }
 }

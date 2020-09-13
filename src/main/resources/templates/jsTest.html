@@ -1,27 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Test Doer</title>
+
     <script src="jquery.js"></script>
 
     <script type="text/javascript">
         function onKey() {
-            let chars = $("#search").val();
-            console.log(chars);
+            $('#doer-datalist').empty();
+
+            let chars = $("#doerSearch").val();
+            //console.log(chars);
             $.ajax({
                 url: "/testSearch",
                 type: "GET",
                 data: {"chars" : chars}
-            }).then(function(data) {
-                console.log(data);
-                //$('.greeting-id').append(data.id);
+            }).then(function(doerList) {
+                //console.log(doerList);
+                doerList.forEach(function(item) {
+                    // Create a new <option> element.
+                    $('#doer-datalist').append($("<option>").text(item.name));
+                });
             });
         }
+
     </script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <input id="search" type="text" onkeyup="onKey()">
+    <div th:insert="~{banner :: topBanner}"></div>
+
+    <form name="search" action="testFindDoer" method="POST">
+        <label for="doerSearch">Поиск Деятеля</label>
+        <input id="doerSearch" name="doerSearch" type="text" placeholder="начните ввод" list="doer-datalist" onkeyup="onKey()">
+
+        <button type="submit"> <img src="find_search.png" alt="искать"
+                                                         style="vertical-align: middle">Искать</button>
+    </form>
+
+    <datalist id="doer-datalist"></datalist>
+
+    <ul>
+        <li th:each="doer: ${doersResult}">
+            <span th:utext="'ИД=' + ${doer.id} + ' ' + ${doer.name}"></span>
+        </li>
+    </ul>
+
+    <div th:insert="~{banner :: bottomBanner}"></div>
 
 </body>
 </html>

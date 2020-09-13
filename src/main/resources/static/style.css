@@ -1,0 +1,6 @@
+.banner-background-doer {
+    background: #000 url(allDoer.png); /* Фоновый цвет и фоновый рисунок*/
+    background-repeat: repeat-x; /* Изображение повторяется по горизонтали */
+    height: 340px;
+    margin-bottom: 10px;
+}

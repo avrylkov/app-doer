@@ -1,9 +1,9 @@
 package model;
 
 public class Doer {
-    private String name;
-    private String surName;
-    private Long id;
+    private String name = "";
+    private String surName = "";
+    private Long id = 0L;
 
     public Long getId() {
         return id;
@@ -29,7 +29,14 @@ public class Doer {
         this.name = name;
     }
 
-
+    @Override
+    public String toString() {
+        return "Doer{" +
+                "name='" + name + '\'' +
+                ", surName='" + surName + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
 
 

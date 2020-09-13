@@ -16,15 +16,9 @@
     </form>
 </div>
 
-<div>
-    <a  href="/insertDoer?id=100">Добавить цитату</a>
-</div>
-
-
 <ul>
-    <!--li th:each="quote: ${quotes}" th:text="${quote.text}"></li-->
-
-    <li th:each="doer: ${doers}" th:utext="${doer.name}">
+    <li th:each="doer: ${doers}">
+        <a th:href="@{/toDoer(id=${doer.id})}" th:utext="${doer.name} + ' ' + ${doer.surName}"></a>
     </li>
 
     </a>

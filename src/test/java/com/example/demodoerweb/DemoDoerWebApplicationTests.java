@@ -55,5 +55,10 @@ class DemoDoerWebApplicationTests {
     public void testConnection() {
         doerService.testConnection();
     }
+    @Test
+    public  void testDoerSearch(){
+        List<Doer> doers = doerService.searchDoer("Э");
+        Assert.assertTrue(!doers.isEmpty());
+    }
 
 }
