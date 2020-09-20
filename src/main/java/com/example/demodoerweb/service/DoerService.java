@@ -20,7 +20,7 @@ public class DoerService {
             "    on d.id = q.id_doer\n" +
             " where upper(d.surname) = ?";
 
-    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where surname || name like ?";
+    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where name || surname like ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
