@@ -20,6 +20,8 @@ public class DoerService {
             "    on d.id = q.id_doer\n" +
             " where upper(d.surname) = ?";
 
+    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where surname || name like ?";
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
     private static final String sqlSelectQuote = "insert into quote\n" +
@@ -68,9 +70,7 @@ public class DoerService {
         return jdbcTemplate.query(sqlShowDoer, BeanPropertyRowMapper.newInstance(Doer.class));
     }
 
-    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where surname || name like ?";
-
-    public  List<Doer> searchDoer(String name) {
-        return  jdbcTemplate.query(sqlSearchDoer, new Object[] {"%" + name + "%"}, BeanPropertyRowMapper.newInstance(Doer.class));
+    public  List<Doer> searchDoer(String chars) {
+        return  jdbcTemplate.query(sqlSearchDoer, new Object[] {"%" + chars + "%"}, BeanPropertyRowMapper.newInstance(Doer.class));
     }
 }

@@ -50,7 +50,7 @@ public class TestDoerController {
     //test
     @ResponseBody
     @RequestMapping(value = "/testSearch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Doer> testSearch(@RequestParam(name = "chars") String chars) {
+    public List<Doer> testSearch(@RequestParam(name = "charsTest") String chars) {
         if (StringUtils.isEmpty(chars)) {
             return Collections.EMPTY_LIST;
         }
@@ -62,10 +62,10 @@ public class TestDoerController {
 
     //test
     @RequestMapping(value = "/testFindDoer", method = RequestMethod.POST)
-    public String testFindDoer(@RequestParam(name = "doerSearch") String doerSearch, Model model) {
-        List<Doer> doers = doerList.stream()
-                .filter(doer -> doer.getName().contains((doerSearch)))
-                .collect(Collectors.toList());
+        public String testFindDoer(@RequestParam(name = "doerSearch") String doerSearch, Model model) {
+            List<Doer> doers = doerList.stream()
+                    .filter(doer -> doer.getName().contains((doerSearch)))
+                    .collect(Collectors.toList());
 
         model.addAttribute("doersResult", doers);
         return "jsTest";

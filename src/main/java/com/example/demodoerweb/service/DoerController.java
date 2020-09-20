@@ -9,24 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class DoerController {
 
-    private static List<QuoteDoer> quoteDoerList = new ArrayList<>();
 
-    private static QuoteDoer createQuote(String text, String name, String surName) {
-        QuoteDoer quoteDoer = new QuoteDoer();
-        quoteDoer.setText(text);
-        quoteDoer.setName(name);
-        quoteDoer.setSurName(surName);
-        return quoteDoer;
-    }
 
     @Autowired
     private DoerService doerService;
@@ -36,12 +25,14 @@ public class DoerController {
         return "mainPage";
     }
 
-    @GetMapping("/findDoer")
+    @GetMapping("/findDoerPage")
     public String mainShowDoer(Model model) {
         List<Doer> doers = doerService.showDoer();
         model.addAttribute("doers", doers);
         return "findDoer";
     }
+
+
 
     @RequestMapping(value = "quote", method = RequestMethod.POST)
     public String getQuote(@RequestParam(name = "doer") String doerName, Model model) {
@@ -97,22 +88,36 @@ public class DoerController {
         System.out.println(id);
         return "jsTest";
     }
-    @RequestMapping(value = "/testQuote", method = RequestMethod.GET)
-    public String testQuote() {
-        return "TestQuoteJs";
+
+    @RequestMapping(value = "/doerSearchPage", method = RequestMethod.GET)
+    public String doerSearchPage() {
+        return "doerSearch";
     }
 
+
     @ResponseBody
-    @RequestMapping(value = "/testSearchQuote", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<QuoteDoer> testSearchQuote(@RequestParam(name = "chars") String chars) {
+    @RequestMapping(value = "/dataSearchDoerByName", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Doer> SearchSql(@RequestParam(name = "chars") String chars) {
+        return doSearchDoers(chars);
+    }
+
+    //test
+    @RequestMapping(value = "/formSearchDoerByName", method = RequestMethod.POST)
+    public String findDoerSql(@RequestParam(name = "chars") String chars, Model model) {
+        List<Doer> doers = doSearchDoers(chars);
+        model.addAttribute("doersSearchResult", doers);
+        return "doerSearch";
+    }
+
+    private List<Doer> doSearchDoers(String chars) {
         if (StringUtils.isEmpty(chars)) {
             return Collections.EMPTY_LIST;
         }
-        List<QuoteDoer> quotes = quoteDoerList.stream()
-                .filter(quoteDoer -> quoteDoer.getText().contains(chars))
-                .collect(Collectors.toList());
-        return quotes;
+        List<Doer> doers = doerService.searchDoer(chars);
+        return doers;
     }
+
+
 
 }
 

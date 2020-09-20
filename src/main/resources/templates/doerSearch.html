@@ -13,27 +13,28 @@
             let chars = $("#doerSearch").val();
             //console.log(chars);
             $.ajax({
-                url: "/testSearch",
+                url: "/dataSearchDoerByName",
                 type: "GET",
-                data: {"charsTest" : chars}
-            }).then(function(doerList) {
+                data: {"chars" : chars}
+            }).then(function(doers) {
                 //console.log(doerList);
-                doerList.forEach(function(item) {
+                doers.forEach(function(item) {
                     // Create a new <option> element.
-                    $('#doer-datalist').append($("<option>").text(item.name));
+                    $('#doer-datalist').append($("<option>").text(item.name + ' ' + item.surName));
                 });
             });
         }
 
     </script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div th:insert="~{banner :: topBanner}"></div>
 
-    <form name="search" action="testFindDoer" method="POST">
+    <form name="formSearchDoer" action="formSearchDoerByName" method="POST">
         <label for="doerSearch">Поиск Деятеля</label>
-        <input id="doerSearch" name="doerSearch" type="text" autocomplete="off" placeholder="начните ввод" list="doer-datalist" onkeyup="onKey()">
+        <input id="doerSearch" name="chars" type="text" autocomplete="off" placeholder="начните ввод" list="doer-datalist" onkeyup="onKey()">
 
         <button type="submit"> <img src="find_search.png" alt="искать"
                                                          style="vertical-align: middle">Искать</button>
@@ -41,9 +42,10 @@
 
     <datalist id="doer-datalist"></datalist>
 
+
     <ul>
-        <li th:each="doer: ${doersResult}">
-            <span th:utext="'ИД=' + ${doer.id} + ' ' + ${doer.name}"></span>
+        <li th:each="doer: ${doersSearchResult}">
+            <span th:utext="${doer.name}"></span>
         </li>
     </ul>
 
