@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Цитаты деятелей</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div align="center">
-    <a  href="/quotePage">Найти цитату</a>
-</div>
-<div align="center">
-    <a  href="/findDoerPage">Найти автора</a>
-</div>
+    <!--a href="/mainPage"><img src="home2.png" style="width:42px;height:42px;"></a-->
+
+    <div th:insert="~{banner :: topBanner}"></div>
+
+    <div>
+        <a  href="/quotePage">Найти цитату</a>
+    </div>
+    <div>
+        <a  href="/doerSearchPage">Найти автора</a>
+    </div>
+
+    <div th:insert="~{banner :: bottomBanner}"></div>
+
 </body>
 </html>

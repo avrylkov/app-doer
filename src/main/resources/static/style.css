@@ -2,5 +2,5 @@
     background: #000 url(allDoer.png); /* Фоновый цвет и фоновый рисунок*/
     background-repeat: repeat-x; /* Изображение повторяется по горизонтали */
     height: 265px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }

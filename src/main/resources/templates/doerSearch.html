@@ -42,12 +42,13 @@
 
     <datalist id="doer-datalist"></datalist>
 
-
     <ul>
         <li th:each="doer: ${doersSearchResult}">
-            <span th:utext="${doer.name}"></span>
+            <a th:href="@{/QuotesDoer(id=${doer.id})}"  th:utext="${doer.name} + ' ' + ${doer.surName}"></a>
         </li>
     </ul>
+
+
 
     <div th:insert="~{banner :: bottomBanner}"></div>
 

@@ -15,8 +15,6 @@ import java.util.List;
 @Controller
 public class DoerController {
 
-
-
     @Autowired
     private DoerService doerService;
 
@@ -29,10 +27,8 @@ public class DoerController {
     public String mainShowDoer(Model model) {
         List<Doer> doers = doerService.showDoer();
         model.addAttribute("doers", doers);
-        return "findDoer";
+        return "QuotesDoer";
     }
-
-
 
     @RequestMapping(value = "quote", method = RequestMethod.POST)
     public String getQuote(@RequestParam(name = "doer") String doerName, Model model) {
@@ -49,6 +45,23 @@ public class DoerController {
         model.addAttribute("name", sname + " " + surname);//замена параметра name html
         model.addAttribute("quotes", quoteDoers);
         return "quotePage";
+    }
+
+    @RequestMapping(value = "/QuotesDoer", method = RequestMethod.GET)
+    public String QuotesDoer(@RequestParam(name = "id") Integer id, Model model) {
+        List<Doer> doers  = doerService.showDoerById(id);
+        List<QuoteDoer> quotes  = doerService.showQuoteById(id);
+        String name  = doers.get(0).getName();
+        String surName  = doers.get(0).getSurName();
+        model.addAttribute("name",name + ' ' + surName);
+        model.addAttribute("quotes",quotes);
+        System.out.println(id);
+        return "QuotesDoer";
+    }
+
+    @GetMapping("/mainPage")
+    public  String mainPageShow(){
+        return "mainPage";
     }
 
     @GetMapping("/insertDoer")
@@ -83,17 +96,10 @@ public class DoerController {
         return "insertDoer";
     }
 
-    @RequestMapping(value = "/toDoer", method = RequestMethod.GET)
-    public String toDoer(@RequestParam(name = "id") String id) {
-        System.out.println(id);
-        return "jsTest";
-    }
-
     @RequestMapping(value = "/doerSearchPage", method = RequestMethod.GET)
     public String doerSearchPage() {
         return "doerSearch";
     }
-
 
     @ResponseBody
     @RequestMapping(value = "/dataSearchDoerByName", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -2,14 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
+    <div th:fragment="topBanner">
+       <div class="banner-background-doer">
+       </div>
+       <a href="/mainPage"> <img src="home2.png" style="margin-bottom: 20px;"></a>
+    </div>
 
-<div th:fragment="topBanner" class="banner-background-doer">
-
-</div>
-
-<div th:fragment="bottomBanner" style="margin-top: 30px;">
-    &copy; Школьный проект, г.Краснознаменск Гимназия №2, 9Б, 2020 Рыльков Вячеслав.
-</div>
+    <div th:fragment="bottomBanner" style="margin-top: 30px;">
+        &copy; Школьный проект, г.Краснознаменск Гимназия №2, 9Б, 2020 Рыльков Вячеслав.
+    </div>
 
 </body>
 

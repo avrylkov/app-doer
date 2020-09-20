@@ -20,7 +20,7 @@ public class DoerService {
             "    on d.id = q.id_doer\n" +
             " where upper(d.surname) = ?";
 
-    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where name || surname like ?";
+    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where upper (name) || ' ' || upper (surname) like ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -70,7 +70,18 @@ public class DoerService {
         return jdbcTemplate.query(sqlShowDoer, BeanPropertyRowMapper.newInstance(Doer.class));
     }
 
+    private  static  final String sqlShowDoerById  = "select * from doer where id  = ?";
+    public  List<Doer> showDoerById(int id){
+        return jdbcTemplate.query(sqlShowDoerById, new Object[] {id}, BeanPropertyRowMapper.newInstance(Doer.class));
+    }
+
+    private  static  final String sqlShowQuoteById = "select  * from quote where id_doer = ?";
+
+    public  List<QuoteDoer> showQuoteById(int id){
+        return jdbcTemplate.query(sqlShowQuoteById, new Object[] {id}, BeanPropertyRowMapper.newInstance(QuoteDoer.class));
+    }
+
     public  List<Doer> searchDoer(String chars) {
-        return  jdbcTemplate.query(sqlSearchDoer, new Object[] {"%" + chars + "%"}, BeanPropertyRowMapper.newInstance(Doer.class));
+        return  jdbcTemplate.query(sqlSearchDoer, new Object[] {"%" + chars.toUpperCase() + "%"},  BeanPropertyRowMapper.newInstance(Doer.class));
     }
 }
