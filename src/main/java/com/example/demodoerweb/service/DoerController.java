@@ -97,7 +97,9 @@ public class DoerController {
     }
 
     @RequestMapping(value = "/doerSearchPage", method = RequestMethod.GET)
-    public String doerSearchPage() {
+    public String doerSearchPage(Model model) {
+        List<Doer> doers = doerService.showDoer();
+        model.addAttribute("doers", doers);
         return "doerSearch";
     }
 
