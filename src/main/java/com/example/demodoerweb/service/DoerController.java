@@ -1,6 +1,7 @@
 package com.example.demodoerweb.service;
 
 import model.Doer;
+import model.DoerAndQuote;
 import model.QuoteDoer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -49,6 +50,7 @@ public class DoerController {
 
     @RequestMapping(value = "/QuotesDoer", method = RequestMethod.GET)
     public String QuotesDoer(@RequestParam(name = "id") Integer id, Model model) {
+
         List<Doer> doers  = doerService.showDoerById(id);
         List<QuoteDoer> quotes  = doerService.showQuoteById(id);
         String name  = doers.get(0).getName();
@@ -58,6 +60,9 @@ public class DoerController {
         System.out.println(id);
         return "QuotesDoer";
     }
+
+
+
 
     @GetMapping("/mainPage")
     public  String mainPageShow(){
@@ -72,6 +77,11 @@ public class DoerController {
     @GetMapping("/quotePage")
     public String getFindQuotes() {
         return "quotePage";
+    }
+
+    @GetMapping("/findQuote")
+    public String FindQuotes() {
+        return "FindQuote";
     }
 
     @RequestMapping(value = "/addQuote", method = RequestMethod.POST)
@@ -109,12 +119,10 @@ public class DoerController {
         return doSearchDoers(chars);
     }
 
-    //test
-    @RequestMapping(value = "/formSearchDoerByName", method = RequestMethod.POST)
-    public String findDoerSql(@RequestParam(name = "chars") String chars, Model model) {
-        List<Doer> doers = doSearchDoers(chars);
-        model.addAttribute("doersSearchResult", doers);
-        return "doerSearch";
+    @ResponseBody
+    @RequestMapping(value = "/dataSearchQuote", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DoerAndQuote> SearchQuoteData(@RequestParam(name = "chars") String chars) {
+        return doSearchDoersAndQuote(chars);
     }
 
     private List<Doer> doSearchDoers(String chars) {
@@ -125,6 +133,40 @@ public class DoerController {
         return doers;
     }
 
+    private List<DoerAndQuote> doSearchDoersAndQuote(String chars) {
+        if (StringUtils.isEmpty(chars)) {
+            return Collections.EMPTY_LIST;
+        }
+        List<DoerAndQuote> doersAndQuote = doerService.searchQuote(chars);
+        return doersAndQuote;
+    }
+    @RequestMapping(value = "/formSearchQuote", method = RequestMethod.POST)
+    public String findQuote(@RequestParam(name = "chars") String chars, Model model) {
+        List<DoerAndQuote> doersAndQuote = doSearchDoersAndQuote(chars);
+        model.addAttribute("doerAndQuoteResult", doersAndQuote);
+        return "FindQuote";
+    }
+
+    @RequestMapping(value = "/formSearchDoerByName", method = RequestMethod.POST)
+    public String findDoerSql(@RequestParam(name = "chars") String chars, Model model) {
+        List<Doer> doers = doSearchDoers(chars);
+        model.addAttribute("doersSearchResult", doers);
+        return "doerSearch";
+    }
+/*
+    @RequestMapping(value = "/QuotesDoerAndDoer", method = RequestMethod.GET)
+    public String QuotesAndDoer(@RequestParam(name = "id") Integer id, Model model) {
+        List<DoerAndQuote> doerAndQuotes = doerService.showQuotesByDoerId(id);
+        String name = doerAndQuotes.get(0).getName();
+        String surName = doerAndQuotes.get(0).getSurName();
+  //   String text =    doerAndQuotes.get(0).getText();
+      // String text = doerAndQuotes.get(0).getText();
+        model.addAttribute("name", name + ' ' + surName);
+       // model.addAttribute("quotes", text);
+        System.out.println(id);
+        return "QuotesDoer";
+    }
+*/
 
 
 }

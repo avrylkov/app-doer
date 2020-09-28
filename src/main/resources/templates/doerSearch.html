@@ -49,15 +49,6 @@
     </ul>
 
 
-    <ul>
-        <li th:each="doer: ${doers}">
-            <a th:href="@{/QuotesDoer(id=${doer.id})}"  th:utext="${doer.name} + ' ' + ${doer.surName}"></a>
-        </li>
-    </ul>
-
-
-
-
     <div th:insert="~{banner :: bottomBanner}"></div>
 
 </body>

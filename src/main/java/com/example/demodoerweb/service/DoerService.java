@@ -1,5 +1,6 @@
 package com.example.demodoerweb.service;
 
+import model.DoerAndQuote;
 import model.QuoteDoer;
 import model.Doer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class DoerService {
@@ -20,7 +19,7 @@ public class DoerService {
             "    on d.id = q.id_doer\n" +
             " where upper(d.surname) = ?";
 
-    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where upper (name) || ' ' || upper (surname) like ?";
+
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -75,6 +74,15 @@ public class DoerService {
         return jdbcTemplate.query(sqlShowDoerById, new Object[] {id}, BeanPropertyRowMapper.newInstance(Doer.class));
     }
 
+
+    private  static  final String SQL_SHOW_QUOTES_BY_DOER_ID = "select d.name,d.surname,d.id,q.text from doer d join quote q ON d.id = q.id_doer where d.id = ?";
+
+    public  List<DoerAndQuote> showQuotesByDoerId(int id){
+        return jdbcTemplate.query(SQL_SHOW_QUOTES_BY_DOER_ID, new Object[] {id}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
+    }
+
+
+
     private  static  final String sqlShowQuoteById = "select  * from quote where id_doer = ?";
 
     public  List<QuoteDoer> showQuoteById(int id){
@@ -83,5 +91,12 @@ public class DoerService {
 
     public  List<Doer> searchDoer(String chars) {
         return  jdbcTemplate.query(sqlSearchDoer, new Object[] {"%" + chars.toUpperCase() + "%"},  BeanPropertyRowMapper.newInstance(Doer.class));
+    }
+    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where upper (name) || ' ' || upper (surname) like ?";
+
+    public  static  final String SQL_SEARCH_QUOTE = "select  d.name,d.surname,d.id,q.text from doer d join quote q ON d.id = q.id_doer where upper (q.text) like ?";
+
+    public  List<DoerAndQuote> searchQuote(String chars) {
+        return jdbcTemplate.query(SQL_SEARCH_QUOTE, new Object[]{"%" + chars.toUpperCase() + "%"}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
     }
 }

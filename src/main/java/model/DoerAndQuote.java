@@ -1,11 +1,9 @@
 package model;
 
-public class QuoteDoer {
-
-
+public class DoerAndQuote {
+    private String surName;
+    private String name;
     private String text;
-    private String name = "";
-    private String surName = "";
     private Long id = 0L;
 
 
@@ -14,8 +12,6 @@ public class QuoteDoer {
 //        this.name = name;
 //        this.text = text;
 //    }
-
-
 
     public String getSurName() {
         return surName;
@@ -41,6 +37,13 @@ public class QuoteDoer {
         this.text = text;
     }
 
-}
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+
+}
 

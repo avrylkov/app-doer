@@ -2,6 +2,7 @@ package com.example.demodoerweb;
 
 import com.example.demodoerweb.service.DemoDoerWebApplication;
 import model.Doer;
+import model.DoerAndQuote;
 import model.QuoteDoer;
 import com.example.demodoerweb.service.DoerService;
 import org.junit.Assert;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -60,5 +60,13 @@ class DemoDoerWebApplicationTests {
         List<Doer> doers = doerService.searchDoer("Э");
         Assert.assertTrue(!doers.isEmpty());
     }
+
+    @Test
+    public  void testDoerAndQuote(){
+       List<DoerAndQuote> doerAndQuotes  = doerService.showQuotesByDoerId(2);
+        Assert.assertTrue(!doerAndQuotes.isEmpty());
+    }
+
+
 
 }
