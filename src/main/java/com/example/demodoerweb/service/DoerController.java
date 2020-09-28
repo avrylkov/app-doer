@@ -74,10 +74,6 @@ public class DoerController {
         return "insertDoer";
     }
 
-    @GetMapping("/quotePage")
-    public String getFindQuotes() {
-        return "quotePage";
-    }
 
     @GetMapping("/findQuote")
     public String FindQuotes() {
