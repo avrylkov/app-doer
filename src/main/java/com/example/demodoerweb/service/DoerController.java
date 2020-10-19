@@ -21,15 +21,9 @@ public class DoerController {
 
     @GetMapping("/")
     public String mainPage() {
-        return "mainPage";
+        return "demo";
     }
 
-    @GetMapping("/findDoerPage")
-    public String mainShowDoer(Model model) {
-        List<Doer> doers = doerService.showDoer();
-        model.addAttribute("doers", doers);
-        return "QuotesDoer";
-    }
 
     @RequestMapping(value = "quote", method = RequestMethod.POST)
     public String getQuote(@RequestParam(name = "doer") String doerName, Model model) {
@@ -48,30 +42,29 @@ public class DoerController {
         return "quotePage";
     }
 
+
     @RequestMapping(value = "/QuotesDoer", method = RequestMethod.GET)
     public String QuotesDoer(@RequestParam(name = "id") Integer id, Model model) {
 
-        List<Doer> doers  = doerService.showDoerById(id);
-        List<QuoteDoer> quotes  = doerService.showQuoteById(id);
-        String name  = doers.get(0).getName();
-        String surName  = doers.get(0).getSurName();
-        model.addAttribute("name",name + ' ' + surName);
-        model.addAttribute("quotes",quotes);
+        List<Doer> doers = doerService.showDoerById(id);
+        List<QuoteDoer> quotes = doerService.showQuoteById(id);
+        String name = doers.get(0).getName();
+        String surName = doers.get(0).getSurName();
+        model.addAttribute("name", name + ' ' + surName);
+        model.addAttribute("quotes", quotes);
         System.out.println(id);
         return "QuotesDoer";
     }
 
 
-
-
-    @GetMapping("/mainPage")
-    public  String mainPageShow(){
-        return "mainPage";
-    }
-
     @GetMapping("/insertDoer")
     public String InsertDoer() {
         return "insertDoer";
+    }
+
+    @GetMapping("/mainPage")
+    public String MainPage() {
+        return "demo";
     }
 
 
@@ -81,7 +74,7 @@ public class DoerController {
     }
 
     @RequestMapping(value = "/addQuote", method = RequestMethod.POST)
-    public String addQuote(@RequestParam(name = "doerName") String doer,
+    public String addQuote(@RequestParam(name = "chars") String doer,
                            @RequestParam(name = "doerSurname") String surname,
                            @RequestParam(name = "quote") String quote,
                            Model model) {
@@ -89,12 +82,12 @@ public class DoerController {
         List<Doer> doers = doerService.getDoer(doer, surname);
 
         if (!doers.isEmpty()) {
-            model.addAttribute("doerName",doer + " " +surname + " " + "добавлен");
-            doerService.insertQuote(quote,doers.get(0).getId());
-        } else if(doers.isEmpty()){
+            model.addAttribute("doerName", doer + " " + surname + " " + "добавлен");
+            doerService.insertQuote(quote, doers.get(0).getId());
+        } else if (doers.isEmpty()) {
             Long nextVal = doerService.nextVal();
-            doerService.insertDoer(nextVal,doer,surname);
-            doerService.insertQuote(quote,nextVal);
+            doerService.insertDoer(nextVal, doer, surname);
+            doerService.insertQuote(quote, nextVal);
 
             model.addAttribute("doerName", "Добавлен - " + doer);
         }
@@ -121,6 +114,41 @@ public class DoerController {
         return doSearchDoersAndQuote(chars);
     }
 
+
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/dataSearchQuoteByInsert", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DoerAndQuote> searchQuoteBySurname(@RequestParam(name = "charsQuote") String charsQuote,
+                                                   @RequestParam(name = "chars") String charsSurName) {
+        return SearchQuoteBySurname(charsQuote,charsSurName);
+    }
+
+    private List<DoerAndQuote> SearchQuoteBySurname(String charsQuote,String charsSurName) {
+        if (StringUtils.isEmpty(charsQuote)) {
+            return Collections.EMPTY_LIST;
+        }
+        List<DoerAndQuote> Quote = doerService.findQuoteBySurname(charsQuote,charsSurName);
+        return Quote;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/dataSearchByInsertDoer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Doer> doerInsertSearch(@RequestParam(name = "chars") String chars) {
+        return doSearchInsertDoers(chars);
+
+    }
+
+    private List<Doer> doSearchInsertDoers(String chars) {
+        if (StringUtils.isEmpty(chars)) {
+            return Collections.EMPTY_LIST;
+        }
+        List<Doer> doers = doerService.searchDoer(chars);
+        return doers;
+    }
+
     private List<Doer> doSearchDoers(String chars) {
         if (StringUtils.isEmpty(chars)) {
             return Collections.EMPTY_LIST;
@@ -136,6 +164,7 @@ public class DoerController {
         List<DoerAndQuote> doersAndQuote = doerService.searchQuote(chars);
         return doersAndQuote;
     }
+
     @RequestMapping(value = "/formSearchQuote", method = RequestMethod.POST)
     public String findQuote(@RequestParam(name = "chars") String chars, Model model) {
         List<DoerAndQuote> doersAndQuote = doSearchDoersAndQuote(chars);

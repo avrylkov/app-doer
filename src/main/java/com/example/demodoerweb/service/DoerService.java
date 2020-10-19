@@ -54,9 +54,6 @@ public class DoerService {
 
 
 
-
-
-
     private static final String sqlInsertDoer = "insert into doer(id,name,surname)\n" +
             "values (?,?,?)";
 
@@ -126,5 +123,11 @@ public class DoerService {
 
     public  List<DoerAndQuote> searchQuote(String chars) {
         return jdbcTemplate.query(SQL_SEARCH_QUOTE, new Object[]{"%" + chars.toUpperCase() + "%"}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
+    }
+
+    public  static  final  String sqlFindQuoteBySurname  = "select d.name,d.surname,d.id,q.text from doer d join quote q ON d.id = q.id_doer where q.text like ? and d.surname = ?";
+
+    public List<DoerAndQuote> findQuoteBySurname(String chars,String surname){
+        return  jdbcTemplate.query(sqlFindQuoteBySurname, new Object[]{"%" + chars + "%",surname}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
     }
 }

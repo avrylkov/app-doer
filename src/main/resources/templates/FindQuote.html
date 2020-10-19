@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <div th:insert="~{banner :: topBanner}"></div>
 
 <form name="formSearchQuote" action="formSearchQuote" method="POST">
@@ -54,6 +55,15 @@
     </tr>
 </table>
 
+<div >
+    <a  href="/insertDoer">Добавить цитату</a>
+</div>
+
+
+
+<div th:insert="~{banner :: bottomBanner}"></div>
+</body>
+</html>
 
 
 

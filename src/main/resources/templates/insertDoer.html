@@ -1,32 +1,105 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<link rel="stylesheet" href="style.css">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="cssDesing.css"/>
     <title>Doer</title>
 
+    <script src="jquery.js"></script>
+
+    <script type="text/javascript">
+        function onKey() {
+            $('#doerInsert-datalist').empty();
+
+            let chars = $("#doerInsertSearch").val();
+            //console.log(chars);
+            $.ajax({
+                url: "/dataSearchByInsertDoer",
+                type: "GET",
+                data: {"chars" : chars}
+
+            }).then(function(doers) {
+                //console.log(doerList);
+                doers.forEach(function(item) {
+                    // Create a new <option> element.
+                    $('#doerInsert-datalist').append($("<option>").text(item.surName));
+                });
+            });
+        }
+
+    </script>
+
+
+
+    <script type="text/javascript">
+        function onKey2() {
+            $('#quote-datalist').empty();
+
+            let charsQuote = $("#quoteSearch").val();
+            let  charsSurName = $("#doerInsertSearch").val();
+            //console.log(chars);
+            $.ajax({
+                url: "/dataSearchQuoteByInsert",
+                type: "GET",
+                data: {"charsQuote" : charsQuote, "chars" : charsSurName}
+            }).then(function(doersAndQuote) {
+
+                //console.log(doerList);
+                doersAndQuote.forEach(function(item) {
+                    // Create a new <option> element.
+                    $('#quote-datalist').append($("<option>").text(item.text));
+                });
+            });
+        }
+
+    </script>
+
 </head>
 
 <body>
-<div align="center">
-<form name="addQuote" action="addQuote" method="POST">
-    <p>Фамилия</p>
-    <input   style="border: 3px #00B344 solid" name="doerName" type="text">
-    <p>Имя</p>
-    <input  style="border: 3px #00B344 solid" name="doerSurname" type="text">
-    <p>Текст<Br>
-        <textarea   style="border: 3px #00B344 solid" name="quote" cols="40" rows="3"></textarea></p>
+<datalist id="quote-datalist"></datalist>
+<datalist id="doerInsert-datalist"></datalist>
 
-    <input  type="submit" value="Сохранить">
-</form>
-<span th:text = "${doerName}"/>
+
+
+<div th:insert="~{banner :: topBanner}"></div>
+<div align="center">
+
+
+    <form name="addQuote" action="addQuote" method="POST">
+        <table>
+            <tr>
+                <th><p>Фамилия</p></th>
+               <th> <input  id="doerInsertSearch" name="chars" type="text" autocomplete="off" list="doerInsert-datalist" onkeyup="onKey() " style="border: 3px #00B344 solid"></th>
+
+            </tr>
+
+            <tr>
+                <th><p>Имя</p></th>
+                <th><input style="border: 3px #00B344 solid" name="doerSurname" type="text" autocomplete="off"></th>
+            </tr>
+
+            <tr>
+               <th> <p>Текст</p> </th>
+               <th><input id="quoteSearch" name="charsQuote" type="text" autocomplete="off" placeholder="начните ввод" list="quote-datalist" onkeyup="onKey2()"></th>
+            </tr>
+
+
+        </table>
+        <input type="submit" value="Сохранить">
+    </form>
+    <span th:text="${doerName}"/>
 </div>
 
 <div align="center">
-    <a  href="/quotePage">Найти цитату</a>
+    <a href="/findQuote">Найти цитату</a>
 </div>
+
+<div th:insert="~{banner :: bottomBanner}"></div>
+
+
 
 </body>
 

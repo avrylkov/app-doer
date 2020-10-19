@@ -67,6 +67,12 @@ class DemoDoerWebApplicationTests {
         Assert.assertTrue(!doerAndQuotes.isEmpty());
     }
 
+    @Test
+    public  void testFindQuoteBySurname(){
+        List<DoerAndQuote> quotesBySurname  = doerService.findQuoteBySurname("а","Медведев");
+        Assert.assertTrue(!quotesBySurname.isEmpty());
+    }
+
 
 
 }
