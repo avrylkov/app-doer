@@ -2,12 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <style>
-        .sticky {
-            position: sticky;
-            top: 0;
-        }
-    </style>
+
     <title>Test Doer</title>
 
     <script src="jquery.js"></script>
@@ -37,7 +32,7 @@
 </head>
 <body>
 
-<div th:insert="~{banner :: topBanner}" class="sticky"></div>
+<div th:insert="~{banner :: topBanner}" ></div>
 
 <form name="formSearchQuote" action="formSearchQuote" method="POST">
     <label for="quoteSearch">Поиск Цитаты</label>
@@ -72,7 +67,7 @@
 </div>
 
 
-<div th:insert="~{banner :: bottomBanner}" class="sticky"></div>
+<div th:insert="~{banner :: bottomBanner}" ></div>
 
 </body>
 </html>
