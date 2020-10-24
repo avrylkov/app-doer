@@ -3,7 +3,6 @@
     background-repeat: repeat-x; /* Изображение повторяется по горизонтали */
     height: 265px;
     margin-bottom: 10px;
-    position: fixed;
-    top: 0;
+
 
 }
