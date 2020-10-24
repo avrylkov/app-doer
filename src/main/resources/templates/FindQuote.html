@@ -2,6 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <style>
+        .sticky {
+            position: sticky;
+            top: 0;
+        }
+    </style>
     <title>Test Doer</title>
 
     <script src="jquery.js"></script>
@@ -15,10 +21,10 @@
             $.ajax({
                 url: "/dataSearchQuote",
                 type: "GET",
-                data: {"chars" : chars}
-            }).then(function(doersAndQuote) {
+                data: {"chars": chars}
+            }).then(function (doersAndQuote) {
                 //console.log(doerList);
-                doersAndQuote.forEach(function(item) {
+                doersAndQuote.forEach(function (item) {
                     // Create a new <option> element.
                     $('#quote-datalist').append($("<option>").text(item.text));
                 });
@@ -31,40 +37,45 @@
 </head>
 <body>
 
-<div th:insert="~{banner :: topBanner}"></div>
+<div th:insert="~{banner :: topBanner}" class="sticky"></div>
 
 <form name="formSearchQuote" action="formSearchQuote" method="POST">
     <label for="quoteSearch">Поиск Цитаты</label>
-    <input id="quoteSearch" name="chars" type="text" autocomplete="off" placeholder="начните ввод" list="quote-datalist" onkeyup="onKey()">
+    <input id="quoteSearch" name="chars" type="text" autocomplete="off" placeholder="начните ввод" list="quote-datalist"
+           onkeyup="onKey()">
 
-    <button type="submit"> <img src="find_search.png" alt="искать"
-                                style="vertical-align: middle">Искать</button>
+    <button type="submit"><img src="find_search.png" alt="искать"
+                               style="vertical-align: middle">Искать
+    </button>
 </form>
 
 <datalist id="quote-datalist"></datalist>
 
-<table>
-    <tr>
-        <th>имя</th>
 
-        <th>Цитата</th>
-    </tr>
-    <tr th:each="doersAndQuote : ${doerAndQuoteResult}">
-        <td> <a th:href="@{/QuotesDoer(id=${doersAndQuote.id})}" th:text="${doersAndQuote.name + ' ' + doersAndQuote.surName}"></a></td>
-        <td th:text="${doersAndQuote.text}"></td>
-    </tr>
-</table>
+    <table>
+        <tr>
+            <th>имя</th>
 
-<div >
-    <a  href="/insertDoer">Добавить цитату</a>
+            <th>Цитата</th>
+        </tr>
+
+        <tr th:each="doersAndQuote : ${doerAndQuoteResult}">
+            <td><a th:href="@{/QuotesDoer(id=${doersAndQuote.id})}"
+                   th:text="${doersAndQuote.name + ' ' + doersAndQuote.surName}"></a></td>
+            <td th:text="${doersAndQuote.text}"></td>
+        </tr>
+    </table>
+
+    <div>
+        <a href="/insertDoer">Добавить цитату</a>
+    </div>
 </div>
 
 
+<div th:insert="~{banner :: bottomBanner}" class="sticky"></div>
 
-<div th:insert="~{banner :: bottomBanner}"></div>
 </body>
 </html>
-
 
 
 <!--
