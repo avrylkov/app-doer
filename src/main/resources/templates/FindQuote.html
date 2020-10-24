@@ -27,12 +27,18 @@
         }
 
     </script>
+    <style>
+        .sticky {
+            position: sticky;
+            top: 0;
+        }
+    </style>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div th:insert="~{banner :: topBanner}" ></div>
+<div th:insert="~{banner :: topBanner}" class="sticky" ></div>
 
 <form name="formSearchQuote" action="formSearchQuote" method="POST">
     <label for="quoteSearch">Поиск Цитаты</label>
