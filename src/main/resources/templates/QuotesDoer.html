@@ -19,5 +19,17 @@
 
     <div th:insert="~{banner :: bottomBanner}"></div>
 
+    <table>
+        <tr th:each="doersAndQuote : ${doerAndQuoteResult}">
+        <td th:text="${doersAndQuote.text + '' + doersAndQuote.id}">
+
+        </td>
+
+        <td> <a th:href="@{/likesQuote(idQuote=${(doersAndQuote.idQuote)})}" > урл</a><td>
+
+        <td> <a th:text="${doersAndQuote.likes}"></a><td>
+
+    </table>
+
  </body>
  </html>

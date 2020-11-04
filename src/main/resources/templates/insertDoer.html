@@ -9,52 +9,7 @@
 
     <script src="jquery.js"></script>
 
-    <script type="text/javascript">
-        function onKey() {
-            $('#doerInsert-datalist').empty();
-
-            let chars = $("#doerInsertSearch").val();
-            //console.log(chars);
-            $.ajax({
-                url: "/dataSearchByInsertDoer",
-                type: "GET",
-                data: {"chars" : chars}
-
-            }).then(function(doers) {
-                //console.log(doerList);
-                doers.forEach(function(item) {
-                    // Create a new <option> element.
-                    $('#doerInsert-datalist').append($("<option>").text(item.surName));
-                });
-            });
-        }
-
-    </script>
-
-
-
-    <script type="text/javascript">
-        function onKey2() {
-            $('#quote-datalist').empty();
-
-            let charsQuote = $("#quoteSearch").val();
-            let  charsSurName = $("#doerInsertSearch").val();
-            //console.log(chars);
-            $.ajax({
-                url: "/dataSearchQuoteByInsert",
-                type: "GET",
-                data: {"charsQuote" : charsQuote, "chars" : charsSurName}
-            }).then(function(doersAndQuote) {
-
-                //console.log(doerList);
-                doersAndQuote.forEach(function(item) {
-                    // Create a new <option> element.
-                    $('#quote-datalist').append($("<option>").text(item.text));
-                });
-            });
-        }
-
-    </script>
+    <script src="Doer.js"></script>
 
 </head>
 
@@ -72,7 +27,7 @@
         <table>
             <tr>
                 <th><p>Фамилия</p></th>
-               <th> <input  id="doerInsertSearch" name="chars" type="text" autocomplete="off" list="doerInsert-datalist" onkeyup="onKey() " style="border: 3px #00B344 solid"></th>
+               <th> <input  id="doerInsertSearch" name="chars" type="text" autocomplete="off" list="doerInsert-datalist" onkeyup="charsSurname() " style="border: 3px #00B344 solid"></th>
 
             </tr>
 
@@ -83,7 +38,7 @@
 
             <tr>
                <th> <p>Текст</p> </th>
-               <th><input id="quoteSearch" name="charsQuote" type="text" autocomplete="off" placeholder="начните ввод" list="quote-datalist" onkeyup="onKey2()"></th>
+               <th><input id="quoteSearch" name="charsQuote" type="text" autocomplete="off" placeholder="начните ввод" list="quote-datalist" onkeyup="charsQuoteBySurname()"></th>
             </tr>
 
 

@@ -22,14 +22,11 @@ public class DoerService {
     private JdbcTemplate jdbcTemplate;
 
 
-
-
     private static final String sqlNextval = "select nextval('DOER_SEQ')";
 
     public Long nextVal() {
         return jdbcTemplate.queryForObject(sqlNextval, Long.class);
     }
-
 
 
     private static final String sqlFindQuote = "select d.surname, d.name, q.text\n" +
@@ -43,15 +40,13 @@ public class DoerService {
     }
 
 
-
     private static final String sqlFindDoer = " select surName,name,id from doer" +
             " where upper (surName)  = ? AND upper (name)= ?";
 
     public List<Doer> getDoer(String surName, String name) {
-        return jdbcTemplate.query(sqlFindDoer, new Object[] {surName.toUpperCase(), name.toUpperCase()}, BeanPropertyRowMapper.newInstance(Doer.class));
+        return jdbcTemplate.query(sqlFindDoer, new Object[]{surName.toUpperCase(), name.toUpperCase()}, BeanPropertyRowMapper.newInstance(Doer.class));
 
     }
-
 
 
     private static final String sqlInsertDoer = "insert into doer(id,name,surname)\n" +
@@ -61,7 +56,6 @@ public class DoerService {
         jdbcTemplate.update(sqlInsertDoer, id, name, surName);
 
     }
-
 
 
     public void insertQuote(String quote, Long idDoer) {
@@ -74,60 +68,66 @@ public class DoerService {
             " ((select nextval('QUOTE_SEQ')), ?, ?)";
 
 
-
-
     private static final String sqlShowDoer = "select name,surname,id  from doer limit 10";
 
     public List<Doer> showDoer() {
         return jdbcTemplate.query(sqlShowDoer, BeanPropertyRowMapper.newInstance(Doer.class));
     }
 
-
-
-
-    private  static  final String sqlShowDoerById  = "select * from doer where id  = ?";
-
-    public  List<Doer> showDoerById(int id){
-        return jdbcTemplate.query(sqlShowDoerById, new Object[] {id}, BeanPropertyRowMapper.newInstance(Doer.class));
+    public List<QuoteDoer> showQuote() {
+        return jdbcTemplate.query(sqlShowDoer, BeanPropertyRowMapper.newInstance(QuoteDoer.class));
     }
 
 
+    private static final String sqlShowDoerById = "select * from doer where id  = ?";
 
-
-    private  static  final String SQL_SHOW_QUOTES_BY_DOER_ID = "select d.name,d.surname,d.id,q.text from doer d join quote q ON d.id = q.id_doer where d.id = ?";
-
-    public  List<DoerAndQuote> showQuotesByDoerId(int id){
-        return jdbcTemplate.query(SQL_SHOW_QUOTES_BY_DOER_ID, new Object[] {id}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
+    public List<Doer> showDoerById(int id) {
+        return jdbcTemplate.query(sqlShowDoerById, new Object[]{id}, BeanPropertyRowMapper.newInstance(Doer.class));
     }
 
 
+    private static final String SQL_SHOW_QUOTES_BY_DOER_ID = "select d.name,d.surname,d.id,q.text,q.likes,q.id, as idQuote from doer d join quote q ON d.id = q.id_doer where d.id = ?";
 
-    private  static  final String sqlShowQuoteById = "select  * from quote where id_doer = ?";
-
-    public  List<QuoteDoer> showQuoteById(int id){
-        return jdbcTemplate.query(sqlShowQuoteById, new Object[] {id}, BeanPropertyRowMapper.newInstance(QuoteDoer.class));
+    public List<DoerAndQuote> showQuotesByDoerId(int id) {
+        return jdbcTemplate.query(SQL_SHOW_QUOTES_BY_DOER_ID, new Object[]{id}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
     }
 
 
+    private static final String sqlShowQuoteById = "select  * from quote where id_doer = ?";
 
-
-    public  List<Doer> searchDoer(String chars) {
-        return  jdbcTemplate.query(sqlSearchDoer, new Object[] {"%" + chars.toUpperCase() + "%"},  BeanPropertyRowMapper.newInstance(Doer.class));
+    public List<QuoteDoer> showQuoteById(int id) {
+        return jdbcTemplate.query(sqlShowQuoteById, new Object[]{id}, BeanPropertyRowMapper.newInstance(QuoteDoer.class));
     }
-    private  static  final String sqlSearchDoer = "select name, surName, id  from doer where upper (name) || ' ' || upper (surname) like ?";
 
 
+    public List<Doer> searchDoer(String chars) {
+        return jdbcTemplate.query(sqlSearchDoer, new Object[]{"%" + chars.toUpperCase() + "%"}, BeanPropertyRowMapper.newInstance(Doer.class));
+    }
+
+    private static final String sqlSearchDoer = "select name, surName, id  from doer where upper (name) || ' ' || upper (surname) like ?";
 
 
-    public  static  final String SQL_SEARCH_QUOTE = "select  d.name,d.surname,d.id,q.text from doer d join quote q ON d.id = q.id_doer where upper (q.text) like ?";
+    public static final String SQL_SEARCH_QUOTE = "select  d.name,d.surname,d.id,q.likes,q.text,q.id as idQuote from doer d join quote q ON d.id = q.id_doer where upper (q.text) like ?";
 
-    public  List<DoerAndQuote> searchQuote(String chars) {
+    public List<DoerAndQuote> searchQuote(String chars) {
         return jdbcTemplate.query(SQL_SEARCH_QUOTE, new Object[]{"%" + chars.toUpperCase() + "%"}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
     }
 
-    public  static  final  String sqlFindQuoteBySurname  = "select d.name,d.surname,d.id,q.text from doer d join quote q ON d.id = q.id_doer where q.text like ? and d.surname = ?";
+    public static final String sqlFindQuoteBySurname = "select d.name,d.surname,d.id,q.likes,q.text,q.id as idQuote from doer d join quote q ON d.id = q.id_doer where q.text like ? and d.surname = ?";
 
-    public List<DoerAndQuote> findQuoteBySurname(String chars,String surname){
-        return  jdbcTemplate.query(sqlFindQuoteBySurname, new Object[]{"%" + chars + "%",surname}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
+    public List<DoerAndQuote> findQuoteBySurname(String chars, String surname) {
+        return jdbcTemplate.query(sqlFindQuoteBySurname, new Object[]{"%" + chars + "%", surname}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
+    }
+
+    public final static String sqlUpdateLikes = "update quote set likes  = ? where id  = ?";
+
+    public final static String sqlSelectLikes = "select likes from quote where  id = ?";
+
+    public Integer selectLikes(int id) {
+        Integer count = jdbcTemplate.queryForObject(sqlSelectLikes, Integer.class, id);
+        count = count + 1;
+        jdbcTemplate.update(sqlUpdateLikes, count, id);
+        return count;
+
     }
 }

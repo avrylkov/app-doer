@@ -5,6 +5,8 @@ public class DoerAndQuote {
     private String name;
     private String text;
     private Long id = 0L;
+    private Long idQuote  = 0L;
+    private int likes;
 
 
 //    public QuoteDoer(String surName, String name, String text) {
@@ -45,5 +47,20 @@ public class DoerAndQuote {
     }
 
 
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public Long getIdQuote() {
+        return idQuote;
+    }
+
+    public void setIdQuote(Long idQuote) {
+        this.idQuote = idQuote;
+    }
 }
 

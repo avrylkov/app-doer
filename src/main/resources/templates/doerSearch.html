@@ -6,26 +6,7 @@
 
     <script src="jquery.js"></script>
 
-    <script type="text/javascript">
-        function onKey() {
-            $('#doer-datalist').empty();
-
-            let chars = $("#doerSearch").val();
-            //console.log(chars);
-            $.ajax({
-                url: "/dataSearchDoerByName",
-                type: "GET",
-                data: {"chars" : chars}
-            }).then(function(doers) {
-                //console.log(doerList);
-                doers.forEach(function(item) {
-                    // Create a new <option> element.
-                    $('#doer-datalist').append($("<option>").text(item.name + ' ' + item.surName));
-                });
-            });
-        }
-
-    </script>
+    <script src="Doer.js"></script>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -33,8 +14,8 @@
 <div th:insert="~{banner :: topBanner}" ></div>
 
     <form name="formSearchDoer" action="formSearchDoerByName" method="POST">
-        <label for="doerSearch">Поиск Деятеля</label>
-        <input id="doerSearch" name="chars" type="text" autocomplete="off" placeholder="начните ввод" list="doer-datalist" onkeyup="onKey()">
+        <label for="doerSearch">Поиск деятеля</label>
+        <input id="doerSearch" name="chars" type="text" autocomplete="off" placeholder="начните ввод" list="doer-datalist" onkeyup="charsByPerson()">
 
         <button type="submit"> <img src="find_search.png" alt="искать"
                                                          style="vertical-align: middle">Искать</button>
@@ -53,7 +34,13 @@
 
     <ul>
         <li th:each="doer: ${doersSearchResult}">
-            <a th:href="@{/QuotesDoer(id=${doer.id})}"  th:utext="${doer.name} + ' ' + ${doer.surName}"></a>
+            <a th:href="@{/QuotesDoer(id=${doer.id})}"  th:utext="${doer.name} + ' ' + ${doer.surName}" >
+                <form name="likeDoer" action="likeDoer" method="post">
+                <button type="submit"> <img src="find_search.png" alt="оценить">
+                </button>
+                </form>
+            </a>
+
         </li>
     </ul>
 

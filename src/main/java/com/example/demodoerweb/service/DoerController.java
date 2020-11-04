@@ -25,6 +25,8 @@ public class DoerController {
     }
 
 
+
+
     @RequestMapping(value = "quote", method = RequestMethod.POST)
     public String getQuote(@RequestParam(name = "doer") String doerName, Model model) {
         List<QuoteDoer> quoteDoers = doerService.getQuotes(doerName);
@@ -43,7 +45,9 @@ public class DoerController {
     }
 
 
-    @RequestMapping(value = "/QuotesDoer", method = RequestMethod.GET)
+
+
+    @RequestMapping(value = "/quoteDoer", method = RequestMethod.GET)
     public String QuotesDoer(@RequestParam(name = "id") Integer id, Model model) {
 
         List<Doer> doers = doerService.showDoerById(id);
@@ -55,6 +59,8 @@ public class DoerController {
         System.out.println(id);
         return "QuotesDoer";
     }
+
+
 
 
     @GetMapping("/insertDoer")
@@ -178,6 +184,16 @@ public class DoerController {
         model.addAttribute("doersSearchResult", doers);
         return "doerSearch";
     }
+
+    @RequestMapping(value = "/likesQuote", method = RequestMethod.GET)
+    public String updateLikes(@RequestParam(name  = "idQuote") Integer id) {
+         doerService.selectLikes(id);
+        return "FindQuote";
+    }
+//
+
+
+  //  public  String UpdateLikes(@RequestParam(name  = ""))
 /*
     @RequestMapping(value = "/QuotesDoerAndDoer", method = RequestMethod.GET)
     public String QuotesAndDoer(@RequestParam(name = "id") Integer id, Model model) {

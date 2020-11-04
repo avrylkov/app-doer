@@ -7,6 +7,7 @@ public class QuoteDoer {
     private String name = "";
     private String surName = "";
     private Long id = 0L;
+    private  int likes;
 
 
 //    public QuoteDoer(String surName, String name, String text) {
@@ -41,6 +42,21 @@ public class QuoteDoer {
         this.text = text;
     }
 
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
 
 
