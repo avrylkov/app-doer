@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -77,8 +76,8 @@ class DemoDoerWebApplicationTests {
     @Test
     public void updateLikess(){
 
-        Integer likes1 = doerService.selectLikes(100);
-        Integer likes2 = doerService.selectLikes(100);
+        Integer likes1 = doerService.incrementLikes(100);
+        Integer likes2 = doerService.incrementLikes(100);
         Assert.assertEquals(likes2 - likes1, 1);
     }
 

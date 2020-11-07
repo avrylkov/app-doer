@@ -81,12 +81,16 @@ public class DoerService {
 
     private static final String sqlShowDoerById = "select * from doer where id  = ?";
 
-    public List<Doer> showDoerById(int id) {
-        return jdbcTemplate.query(sqlShowDoerById, new Object[]{id}, BeanPropertyRowMapper.newInstance(Doer.class));
+    public Doer showDoerById(int id) {
+        List<Doer> list = jdbcTemplate.query(sqlShowDoerById, new Object[]{id}, BeanPropertyRowMapper.newInstance(Doer.class));
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
     }
 
 
-    private static final String SQL_SHOW_QUOTES_BY_DOER_ID = "select d.name,d.surname,d.id,q.text,q.likes,q.id, as idQuote from doer d join quote q ON d.id = q.id_doer where d.id = ?";
+    private static final String SQL_SHOW_QUOTES_BY_DOER_ID = "select d.name,d.surname,d.id,q.text,q.likes,q.id as idQuote from doer d join quote q ON d.id = q.id_doer where d.id = ?";
 
     public List<DoerAndQuote> showQuotesByDoerId(int id) {
         return jdbcTemplate.query(SQL_SHOW_QUOTES_BY_DOER_ID, new Object[]{id}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
@@ -123,7 +127,7 @@ public class DoerService {
 
     public final static String sqlSelectLikes = "select likes from quote where  id = ?";
 
-    public Integer selectLikes(int id) {
+    public Integer incrementLikes(int id) {
         Integer count = jdbcTemplate.queryForObject(sqlSelectLikes, Integer.class, id);
         count = count + 1;
         jdbcTemplate.update(sqlUpdateLikes, count, id);

@@ -13,23 +13,17 @@
         <h2><span th:text="${name}" /></h2>
     </div>
 
-    <ul>
-        <li th:each="quote: ${quotes}" th:text="${quote.text}"></li>
-    </ul>
-
-    <div th:insert="~{banner :: bottomBanner}"></div>
-
     <table>
-        <tr th:each="doersAndQuote : ${doerAndQuoteResult}">
-        <td th:text="${doersAndQuote.text + '' + doersAndQuote.id}">
+        <tr th:each="doersAndQuote : ${resultByShow}">
+        <td th:text="${doersAndQuote.text}">
 
         </td>
 
-        <td> <a th:href="@{/likesQuote(idQuote=${(doersAndQuote.idQuote)})}" > урл</a><td>
+        <td> <a th:href="@{/likesQuote(idQuote=${(doersAndQuote.idQuote)}, idDoer=${(doersAndQuote.id)})}"> <img src="like32px.png"></a><td>
 
         <td> <a th:text="${doersAndQuote.likes}"></a><td>
 
     </table>
-
+    <div th:insert="~{banner :: bottomBanner}"></div>
  </body>
  </html>

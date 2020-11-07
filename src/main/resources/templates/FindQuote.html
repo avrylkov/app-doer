@@ -45,15 +45,13 @@
         </tr>
 
         <tr th:each="doersAndQuote : ${doerAndQuoteResult}">
-            <td><a th:href="@{/quoteDoer(id=${doersAndQuote.id})}"
+            <td><a th:href="@{/quotesDoer(id=${doersAndQuote.id})}"
                    th:text="${doersAndQuote.name + ' ' + doersAndQuote.surName}"></a></td>
             <td th:text="${doersAndQuote.text + '' + doersAndQuote.id}">
 
             </td>
 
-            <td> <a th:href="@{/likesQuote(idQuote=${(doersAndQuote.idQuote)})}" > урл</a><td>
 
-            <td> <a th:text="${doersAndQuote.likes}"></a><td>
 
 
         </tr>

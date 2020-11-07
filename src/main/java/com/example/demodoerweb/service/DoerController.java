@@ -47,20 +47,27 @@ public class DoerController {
 
 
 
-    @RequestMapping(value = "/quoteDoer", method = RequestMethod.GET)
-    public String QuotesDoer(@RequestParam(name = "id") Integer id, Model model) {
-
-        List<Doer> doers = doerService.showDoerById(id);
-        List<QuoteDoer> quotes = doerService.showQuoteById(id);
-        String name = doers.get(0).getName();
-        String surName = doers.get(0).getSurName();
-        model.addAttribute("name", name + ' ' + surName);
-        model.addAttribute("quotes", quotes);
-        System.out.println(id);
-        return "QuotesDoer";
+    @RequestMapping(value = "/quotesDoer", method = RequestMethod.GET)
+    public String quotesDoer(@RequestParam(name = "id") Integer id, Model model) {
+         doerToModelById(id, model);
+        return "quotesDoer";
     }
 
 
+    private void doerToModelById(Integer id, Model model) {
+        Doer doer = doerService.showDoerById(id);
+       if (doer == null) {
+           return;
+        }
+        // List<QuoteDoer> quotes = doerService.showQuoteById(id);
+        List<DoerAndQuote> doerAndQuotes = doerService.showQuotesByDoerId(id);
+        String name = doer.getName();
+        String surName = doer.getSurName();
+        model.addAttribute("name", name + ' ' + surName);
+      //  model.addAttribute("quotes", doerAndQuotes);
+        model.addAttribute("resultByShow", doerAndQuotes);
+
+    }
 
 
     @GetMapping("/insertDoer")
@@ -186,28 +193,14 @@ public class DoerController {
     }
 
     @RequestMapping(value = "/likesQuote", method = RequestMethod.GET)
-    public String updateLikes(@RequestParam(name  = "idQuote") Integer id) {
-         doerService.selectLikes(id);
-        return "FindQuote";
-    }
-//
+    public String likesQuote(@RequestParam(name  = "idQuote") Integer id,
+                             @RequestParam(name  = "idDoer") Integer idDoer,
+                             Model model) {
 
-
-  //  public  String UpdateLikes(@RequestParam(name  = ""))
-/*
-    @RequestMapping(value = "/QuotesDoerAndDoer", method = RequestMethod.GET)
-    public String QuotesAndDoer(@RequestParam(name = "id") Integer id, Model model) {
-        List<DoerAndQuote> doerAndQuotes = doerService.showQuotesByDoerId(id);
-        String name = doerAndQuotes.get(0).getName();
-        String surName = doerAndQuotes.get(0).getSurName();
-  //   String text =    doerAndQuotes.get(0).getText();
-      // String text = doerAndQuotes.get(0).getText();
-        model.addAttribute("name", name + ' ' + surName);
-       // model.addAttribute("quotes", text);
-        System.out.println(id);
-        return "QuotesDoer";
+        doerService.incrementLikes(id);
+        doerToModelById(idDoer, model);
+        return "quotesDoer";
     }
-*/
 
 
 }
