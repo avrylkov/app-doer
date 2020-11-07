@@ -22,6 +22,12 @@
         top: 0;
     }
 </style>
+<style>
+    .child {
+        margin-top: 20px;
+    }
+
+</style>
 <div th:insert="~{banner :: topBanner}" class="sticky" ></div>
 
 <form name="formSearchQuote" action="formSearchQuote" method="POST">
@@ -50,15 +56,14 @@
             <td th:text="${doersAndQuote.text + '' + doersAndQuote.id}">
 
             </td>
-
-
-
-
         </tr>
     </table>
 
-    <div>
-        <a href="/insertDoer">Добавить цитату</a>
+
+
+    <div style="margin-top: 10px;" >
+
+        <a href="/insertDoer" >Добавить цитату</a>
     </div>
 </div>
 

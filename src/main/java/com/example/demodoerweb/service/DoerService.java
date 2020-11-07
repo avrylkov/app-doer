@@ -78,6 +78,12 @@ public class DoerService {
         return jdbcTemplate.query(sqlShowDoer, BeanPropertyRowMapper.newInstance(QuoteDoer.class));
     }
 
+    private static final String sqlSortQuote = "select likes from quote order by likes desc";
+
+    public List<DoerAndQuote> sortQuote(){
+        return jdbcTemplate.query(sqlSortQuote, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
+    }
+
 
     private static final String sqlShowDoerById = "select * from doer where id  = ?";
 
@@ -90,7 +96,7 @@ public class DoerService {
     }
 
 
-    private static final String SQL_SHOW_QUOTES_BY_DOER_ID = "select d.name,d.surname,d.id,q.text,q.likes,q.id as idQuote from doer d join quote q ON d.id = q.id_doer where d.id = ?";
+    private static final String SQL_SHOW_QUOTES_BY_DOER_ID = "select d.name,d.surname,d.id,q.text,q.likes,q.id as idQuote from doer d join quote q ON d.id = q.id_doer where d.id = ?  order by likes desc";
 
     public List<DoerAndQuote> showQuotesByDoerId(int id) {
         return jdbcTemplate.query(SQL_SHOW_QUOTES_BY_DOER_ID, new Object[]{id}, BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
