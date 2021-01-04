@@ -43,7 +43,7 @@ public class DoerService {
     private static final String sqlFindDoer = " select surName,name,id from doer" +
             " where upper (surName)  = ? AND upper (name)= ?";
 
-    public List<Doer> getDoer(String surName, String name) {
+    public List<Doer> findDoer(String surName, String name) {
         return jdbcTemplate.query(sqlFindDoer, new Object[]{surName.toUpperCase(), name.toUpperCase()}, BeanPropertyRowMapper.newInstance(Doer.class));
 
     }

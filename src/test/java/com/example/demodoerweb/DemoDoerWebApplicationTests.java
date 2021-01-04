@@ -29,7 +29,7 @@ class DemoDoerWebApplicationTests {
 
     @Test
     public Long testSearchDoer() {
-        List<Doer> doers = doerService.getDoer("Эйнштейн", "АЛЬБЕРТ");
+        List<Doer> doers = doerService.findDoer("ввв", "в");
         Assert.assertTrue(!doers.isEmpty());
         return doers.get(0).getId();
     }
@@ -43,7 +43,6 @@ class DemoDoerWebApplicationTests {
     public void testNextval() {
         Long nextVal = doerService.nextVal();
         Assert.assertTrue(nextVal > 0);
-
     }
 
     @Test
@@ -63,7 +62,7 @@ class DemoDoerWebApplicationTests {
 
     @Test
     public  void testDoerAndQuote(){
-       List<DoerAndQuote> doerAndQuotes  = doerService.showQuotesByDoerId(2);
+       List<DoerAndQuote> doerAndQuotes  = doerService.showQuotesByDoerId(1);
         Assert.assertTrue(!doerAndQuotes.isEmpty());
     }
 
@@ -80,9 +79,4 @@ class DemoDoerWebApplicationTests {
         Integer likes2 = doerService.incrementLikes(100);
         Assert.assertEquals(likes2 - likes1, 1);
     }
-
-
-
-
-
 }

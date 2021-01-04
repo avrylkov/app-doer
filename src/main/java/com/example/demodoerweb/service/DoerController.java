@@ -25,8 +25,6 @@ public class DoerController {
     }
 
 
-
-
     @RequestMapping(value = "quote", method = RequestMethod.POST)
     public String getQuote(@RequestParam(name = "doer") String doerName, Model model) {
         List<QuoteDoer> quoteDoers = doerService.getQuotes(doerName);
@@ -45,26 +43,24 @@ public class DoerController {
     }
 
 
-
-
     @RequestMapping(value = "/quotesDoer", method = RequestMethod.GET)
     public String quotesDoer(@RequestParam(name = "id") Integer id, Model model) {
-         doerToModelById(id, model);
+        doerToModelById(id, model);
         return "quotesDoer";
     }
 
 
     private void doerToModelById(Integer id, Model model) {
         Doer doer = doerService.showDoerById(id);
-       if (doer == null) {
-           return;
+        if (doer == null) {
+            return;
         }
         // List<QuoteDoer> quotes = doerService.showQuoteById(id);
         List<DoerAndQuote> doerAndQuotes = doerService.showQuotesByDoerId(id);
         String name = doer.getName();
         String surName = doer.getSurName();
         model.addAttribute("name", name + ' ' + surName);
-      //  model.addAttribute("quotes", doerAndQuotes);
+        //  model.addAttribute("quotes", doerAndQuotes);
         model.addAttribute("resultByShow", doerAndQuotes);
 
     }
@@ -86,27 +82,53 @@ public class DoerController {
         return "FindQuote";
     }
 
-    @RequestMapping(value = "/addQuote", method = RequestMethod.POST)
-    public String addQuote(@RequestParam(name = "chars") String doer,
-                           @RequestParam(name = "doerSurname") String surname,
-                           @RequestParam(name = "quote") String quote,
-                           Model model) {
 
-        List<Doer> doers = doerService.getDoer(doer, surname);
+    @RequestMapping(value = "/addDoerAndQuote", method = RequestMethod.POST)
+    public String addDoerAndQuote(@RequestParam(name = "chars") String doer,
+                                  @RequestParam(name = "doerSurname") String surname,
+                                  @RequestParam(name = "charsQuote") String quote,
+                                  Model model) {
+
+        List<Doer> doers = doerService.findDoer(doer, surname);
 
         if (!doers.isEmpty()) {
-            model.addAttribute("doerName", doer + " " + surname + " " + "добавлен");
-            doerService.insertQuote(quote, doers.get(0).getId());
-        } else if (doers.isEmpty()) {
             Long nextVal = doerService.nextVal();
             doerService.insertDoer(nextVal, doer, surname);
             doerService.insertQuote(quote, nextVal);
+            model.addAttribute("doerName", quote + " добавлена");
 
-            model.addAttribute("doerName", "Добавлен - " + doer);
+            //  doerService.insertQuote(quote, doers.get(0).getId());
+
+        } else if (doers.isEmpty()) {
+            for (char i : doer.toCharArray()) {
+                if (Character.UnicodeBlock.of(i) == Character.UnicodeBlock.CYRILLIC) {
+                    for (char a : surname.toCharArray()) {
+                        if (Character.UnicodeBlock.of(a) == Character.UnicodeBlock.CYRILLIC) {
+                            Long nextVal = doerService.nextVal();
+                            doerService.insertDoer(nextVal, doer, surname);
+                            doerService.insertQuote(quote, nextVal);
+                            model.addAttribute("doerName", doer + " " + surname + " " + "добавлен");
+                            break;
+                        }
+                    }
+                }
+            }
+            for (char i : doer.toCharArray()) {
+                if (Character.UnicodeBlock.of(i) != Character.UnicodeBlock.CYRILLIC) {
+                    for (char a : surname.toCharArray()) {
+                        if (Character.UnicodeBlock.of(a) != Character.UnicodeBlock.CYRILLIC) {
+                            model.addAttribute("doerName", "недопустимые символы.Допускаются только русские буквы");
+                         //   break;
+                        }
+                    }
+                    model.addAttribute("doerName", "недопустимые символы.Допускаются только русские буквы");
+                }
+            }
         }
-
         return "insertDoer";
     }
+
+
 
     @RequestMapping(value = "/doerSearchPage", method = RequestMethod.GET)
     public String doerSearchPage(Model model) {

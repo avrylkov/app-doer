@@ -9,11 +9,7 @@ public class DoerAndQuote {
     private int likes;
 
 
-//    public QuoteDoer(String surName, String name, String text) {
-//        this.surName = surName;
-//        this.name = name;
-//        this.text = text;
-//    }
+
 
     public String getSurName() {
         return surName;
@@ -59,8 +55,6 @@ public class DoerAndQuote {
         return idQuote;
     }
 
-    public void setIdQuote(Long idQuote) {
-        this.idQuote = idQuote;
-    }
+
 }
 
