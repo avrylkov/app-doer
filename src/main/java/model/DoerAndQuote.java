@@ -5,8 +5,13 @@ public class DoerAndQuote {
     private String name;
     private String text;
     private Long id = 0L;
+
+    public void setIdQuote(Long idQuote) {
+        this.idQuote = idQuote;
+    }
+
     private Long idQuote  = 0L;
-    private int likes;
+    private Integer likes;
 
 
 
@@ -43,12 +48,13 @@ public class DoerAndQuote {
     }
 
 
-    public int getLikes() {
+    public Integer getLikes() {
         return likes;
     }
 
-    public void setLikes(int likes) {
+    public DoerAndQuote setLikes(Integer likes) {
         this.likes = likes;
+        return  this;
     }
 
     public Long getIdQuote() {

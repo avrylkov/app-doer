@@ -43,7 +43,7 @@ public class DoerController {
     }
 
 
-    @RequestMapping(value = "/quotesDoer", method = RequestMethod.GET)
+    @RequestMapping(value = "/QuotesDoer", method = RequestMethod.GET)
     public String quotesDoer(@RequestParam(name = "id") Integer id, Model model) {
         doerToModelById(id, model);
         return "quotesDoer";
@@ -55,14 +55,32 @@ public class DoerController {
         if (doer == null) {
             return;
         }
-        // List<QuoteDoer> quotes = doerService.showQuoteById(id);
         List<DoerAndQuote> doerAndQuotes = doerService.showQuotesByDoerId(id);
+        if(doerAndQuotes.get(0).getLikes() == null){
+            doerAndQuotes.get(0).setLikes(0);
+        }
         String name = doer.getName();
         String surName = doer.getSurName();
         model.addAttribute("name", name + ' ' + surName);
-        //  model.addAttribute("quotes", doerAndQuotes);
-        model.addAttribute("resultByShow", doerAndQuotes);
+        if(doerAndQuotes.get(0).getLikes() != null) {
+            model.addAttribute("resultByShow", doerAndQuotes);
+        }else{
+            model.addAttribute("resultByShow", "error");
+        }
+    }
+    @RequestMapping(value = "/likesQuote", method = RequestMethod.GET)
+    public String likesQuote(@RequestParam(name  = "idQuote") Integer id,
+                             @RequestParam(name  = "idDoer") Integer idDoer,
+                             Model model) {
+        if(id != 0) {
+            doerService.incrementLikes(id);
+            doerToModelById(idDoer, model);
 
+        }else{
+            System.out.println("0 id");
+            System.out.println("idQuote" + id + "idDoer" + idDoer);
+        }
+        return "quotesDoer";
     }
 
 
@@ -214,15 +232,7 @@ public class DoerController {
         return "doerSearch";
     }
 
-    @RequestMapping(value = "/likesQuote", method = RequestMethod.GET)
-    public String likesQuote(@RequestParam(name  = "idQuote") Integer id,
-                             @RequestParam(name  = "idDoer") Integer idDoer,
-                             Model model) {
 
-        doerService.incrementLikes(id);
-        doerToModelById(idDoer, model);
-        return "quotesDoer";
-    }
 
 
 }

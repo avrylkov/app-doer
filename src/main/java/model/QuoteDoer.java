@@ -7,7 +7,7 @@ public class QuoteDoer {
     private String name = "";
     private String surName = "";
     private Long id = 0L;
-    private  int likes;
+    private  Integer likes;
 
 
 //    public QuoteDoer(String surName, String name, String text) {

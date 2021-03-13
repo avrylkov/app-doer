@@ -34,7 +34,7 @@
 
     <ul>
         <li th:each="doer: ${doersSearchResult}">
-            <a th:href="@{/quotesDoer(id=${doer.id})}"  th:utext="${doer.name} + ' ' + ${doer.surName}" >
+            <a th:href="@{/QuotesDoer(id=${doer.id})}"  th:utext="${doer.name} + ' ' + ${doer.surName}" >
                 <form name="likeDoer" action="likeDoer" method="post">
                 <button type="submit"> <img src="find_search.png" alt="оценить">
                 </button>

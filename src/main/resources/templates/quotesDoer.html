@@ -14,14 +14,14 @@
     </div>
 
     <table>
-        <tr th:each="doersAndQuote : ${resultByShow}">
-        <td th:text="${doersAndQuote.text}">
+        <tr th:each="doerAndQuotes : ${resultByShow}">
+        <td th:text="${doerAndQuotes.text}">
 
         </td>
 
-        <td> <a th:href="@{/likesQuote(idQuote=${(doersAndQuote.idQuote)}, idDoer=${(doersAndQuote.id)})}"> <img src="like32px.png"></a><td>
+        <td> <a th:href="@{/likesQuote(idDoer=${(doerAndQuotes.id)}, idQuote=${(doerAndQuotes.idQuote)})}"> <img src="like32px.png"></a><td>
 
-        <td> <a th:text="${doersAndQuote.likes}"></a><td>
+        <td> <a th:text="${doerAndQuotes.likes}"></a><td>
 
     </table>
     <div th:insert="~{banner :: bottomBanner}"></div>

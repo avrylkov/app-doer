@@ -135,7 +135,7 @@ public class DoerService {
 
     public Integer incrementLikes(int id) {
         Integer count = jdbcTemplate.queryForObject(sqlSelectLikes, Integer.class, id);
-        count = count + 1;
+        count = count == null ? 1 : count + 1;
         jdbcTemplate.update(sqlUpdateLikes, count, id);
         return count;
 
