@@ -56,27 +56,28 @@ public class DoerController {
             return;
         }
         List<DoerAndQuote> doerAndQuotes = doerService.showQuotesByDoerId(id);
-        if(doerAndQuotes.get(0).getLikes() == null){
+        if (doerAndQuotes.get(0).getLikes() == null) {
             doerAndQuotes.get(0).setLikes(0);
         }
         String name = doer.getName();
         String surName = doer.getSurName();
         model.addAttribute("name", name + ' ' + surName);
-        if(doerAndQuotes.get(0).getLikes() != null) {
+        if (doerAndQuotes.get(0).getLikes() != null) {
             model.addAttribute("resultByShow", doerAndQuotes);
-        }else{
+        } else {
             model.addAttribute("resultByShow", "error");
         }
     }
+
     @RequestMapping(value = "/likesQuote", method = RequestMethod.GET)
-    public String likesQuote(@RequestParam(name  = "idQuote") Integer id,
-                             @RequestParam(name  = "idDoer") Integer idDoer,
+    public String likesQuote(@RequestParam(name = "idQuote") Integer id,
+                             @RequestParam(name = "idDoer") Integer idDoer,
                              Model model) {
-        if(id != 0) {
+        if (id != 0) {
             doerService.incrementLikes(id);
             doerToModelById(idDoer, model);
 
-        }else{
+        } else {
             System.out.println("0 id");
             System.out.println("idQuote" + id + "idDoer" + idDoer);
         }
@@ -118,34 +119,14 @@ public class DoerController {
             //  doerService.insertQuote(quote, doers.get(0).getId());
 
         } else if (doers.isEmpty()) {
-            for (char i : doer.toCharArray()) {
-                if (Character.UnicodeBlock.of(i) == Character.UnicodeBlock.CYRILLIC) {
-                    for (char a : surname.toCharArray()) {
-                        if (Character.UnicodeBlock.of(a) == Character.UnicodeBlock.CYRILLIC) {
-                            Long nextVal = doerService.nextVal();
-                            doerService.insertDoer(nextVal, doer, surname);
-                            doerService.insertQuote(quote, nextVal);
-                            model.addAttribute("doerName", doer + " " + surname + " " + "добавлен");
-                            break;
-                        }
-                    }
-                }
-            }
-            for (char i : doer.toCharArray()) {
-                if (Character.UnicodeBlock.of(i) != Character.UnicodeBlock.CYRILLIC) {
-                    for (char a : surname.toCharArray()) {
-                        if (Character.UnicodeBlock.of(a) != Character.UnicodeBlock.CYRILLIC) {
-                            model.addAttribute("doerName", "недопустимые символы.Допускаются только русские буквы");
-                         //   break;
-                        }
-                    }
-                    model.addAttribute("doerName", "недопустимые символы.Допускаются только русские буквы");
-                }
-            }
+            Long nextVal = doerService.nextVal();
+            doerService.insertDoer(nextVal, doer, surname);
+            doerService.insertQuote(quote, nextVal);
+            model.addAttribute("doerName", doer + " " + surname + " " + "добавлен");
+
         }
         return "insertDoer";
     }
-
 
 
     @RequestMapping(value = "/doerSearchPage", method = RequestMethod.GET)
@@ -168,21 +149,18 @@ public class DoerController {
     }
 
 
-
-
-
     @ResponseBody
     @RequestMapping(value = "/dataSearchQuoteByInsert", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DoerAndQuote> searchQuoteBySurname(@RequestParam(name = "charsQuote") String charsQuote,
                                                    @RequestParam(name = "chars") String charsSurName) {
-        return SearchQuoteBySurname(charsQuote,charsSurName);
+        return SearchQuoteBySurname(charsQuote, charsSurName);
     }
 
-    private List<DoerAndQuote> SearchQuoteBySurname(String charsQuote,String charsSurName) {
+    private List<DoerAndQuote> SearchQuoteBySurname(String charsQuote, String charsSurName) {
         if (StringUtils.isEmpty(charsQuote)) {
             return Collections.EMPTY_LIST;
         }
-        List<DoerAndQuote> Quote = doerService.findQuoteBySurname(charsQuote,charsSurName);
+        List<DoerAndQuote> Quote = doerService.findQuoteBySurname(charsQuote, charsSurName);
         return Quote;
     }
 
@@ -231,8 +209,6 @@ public class DoerController {
         model.addAttribute("doersSearchResult", doers);
         return "doerSearch";
     }
-
-
 
 
 }
