@@ -1,5 +1,6 @@
 package com.example.demodoerweb.service;
 
+import model.Admin;
 import model.DoerAndQuote;
 import model.QuoteDoer;
 import model.Doer;
@@ -59,10 +60,10 @@ public class DoerService {
 
 
     public void insertQuote(String quote, Long idDoer) {
-        jdbcTemplate.update(sqlSelectQuote, idDoer, quote);
+        jdbcTemplate.update(sqlInsertQuote, idDoer, quote);
     }
 
-    private static final String sqlSelectQuote = "insert into quote\n" +
+    private static final String sqlInsertQuote = "insert into quote\n" +
             "  (id, id_doer, text)\n" +
             "values\n" +
             " ((select nextval('QUOTE_SEQ')), ?, ?)";
@@ -140,4 +141,39 @@ public class DoerService {
         return count;
 
     }
+
+
+    public  static final String sqlInsertIntoAdminsTable = "insert into admins(login, password)\n" +
+            "values (?,?)";
+
+    public void insertAdminsToAdminTable(String login,String password){
+        jdbcTemplate.update(sqlInsertIntoAdminsTable,login,password);
+    }
+
+    public  static  final  String sqlSelectAdminFromAdminsTable = "select * from Admins where login = ? and password =  ?";
+
+    public List<Admin> findAdminFromAdminsTable(String login,String password){
+        return  jdbcTemplate.query(sqlSelectAdminFromAdminsTable, new Object[]{login,password}, BeanPropertyRowMapper.newInstance(Admin.class));
+    }
+
+    public  static  final  String sqlSelectDoerAndQuoteFromAdminTable = "select  d.name,d.surname,d.id,q.likes,q.text,q.id as idQuote from doer d join adminTableQuote q ON d.id = q.id_doer";
+
+    public List<DoerAndQuote> selectDoerAndQuoteByAdminTable(){
+        return  jdbcTemplate.query(sqlSelectDoerAndQuoteFromAdminTable,BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
+    }
+
+    public  static final String sqlInsertIntoMainTableFromAdmin = "insert into QUOTE(id,id_doer,text)\n" +
+            "values(?,?,?);";
+    public void insertIntoMainTableFromAdmin(Integer idQuote, Integer idDoer, String textQuote){
+         jdbcTemplate.update(sqlInsertIntoMainTableFromAdmin,idQuote,idDoer,textQuote);
+    }
+
+    public static final String sqlDeleteQuoteFromAdminTable = "delete from adminTableQuote where id_doer = ? and id = ?";
+
+    public  void deleteQuoteFromAdminTable(Integer idDoer,Integer idQuote){
+        jdbcTemplate.update(sqlDeleteQuoteFromAdminTable,idDoer,idQuote);
+    }
+
+
+
 }

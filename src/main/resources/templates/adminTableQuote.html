@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="style.css">
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="cssDesing.css"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <span th:text="${completeAutowired}"/>
+</div>
+<table>
+    <tr>
+        <th>имя</th>
+
+        <th>Цитата</th>
+    </tr>
+
+    <tr th:each="doersAndQuote : ${resultBySelectAdminAutowired}">
+        <td><a th:href="@{/QuotesDoer(id=${doersAndQuote.id})}"
+               th:text="${doersAndQuote.name + ' ' + doersAndQuote.surName}"></a></td>
+        <td th:text="${doersAndQuote.text}"></td>
+        <td> <a th:href="@{/trueCompleteQuoteFromAdminTableToMainTable(idDoer=${(doersAndQuote.id)}, idQuote=${(doersAndQuote.idQuote)},textQuote=${(doersAndQuote.text)})}">  добавить </a><td>
+        <td> <a th:href="@{/falseCompleteQuoteFromAdminTableToMainTable(idDoer=${(doersAndQuote.id)}, idQuote=${(doersAndQuote.idQuote)})}">  удалить </a><td>
+    </tr>
+</table>
+
+
+</body>
+</html>

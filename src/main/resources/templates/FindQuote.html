@@ -17,6 +17,20 @@
 <body>
 
 <style>
+    .layer1 {
+        position: relative; /* Относительное позиционирование */
+        background: #f0f0f0; /* Цвет фона */
+        height: 200px; /* Высота блока */
+    }
+    .layer2 {
+        position: absolute; /* Абсолютное позиционирование */
+        margin-top:10px;
+        left: 50px;
+        height: 200px;
+    }
+</style>
+
+<style>
     .sticky {
         position: sticky;
         top: 0;
@@ -67,8 +81,16 @@
     </div>
 </div>
 
+<div class="layer2">
+    <a href="/autowiredAdmin">Авторизоваться</a>
+</div>
+
 
 <div th:insert="~{banner :: bottomBanner}" ></div>
+
+
+
+
 
 </body>
 </html>

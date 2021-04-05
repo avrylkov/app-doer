@@ -1,6 +1,7 @@
 package com.example.demodoerweb;
 
 import com.example.demodoerweb.service.DemoDoerWebApplication;
+import model.Admin;
 import model.Doer;
 import model.DoerAndQuote;
 import model.QuoteDoer;
@@ -79,4 +80,17 @@ class DemoDoerWebApplicationTests {
         Integer likes2 = doerService.incrementLikes(100);
         Assert.assertEquals(likes2 - likes1, 1);
     }
+
+    @Test
+    public  void testInsertAdminIntoAdminTable(){
+        doerService.insertAdminsToAdminTable("slava2","slava");
+    }
+
+    @Test
+    public  void testFindAdminsInAdminsTable(){
+        List<Admin> adminList = doerService.findAdminFromAdminsTable("slavaAdmin1","slavaAdmin");
+        Assert.assertTrue(!adminList.isEmpty());
+    }
+
+
 }

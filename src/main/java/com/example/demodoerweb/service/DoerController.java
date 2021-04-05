@@ -1,5 +1,6 @@
 package com.example.demodoerweb.service;
 
+import model.Admin;
 import model.Doer;
 import model.DoerAndQuote;
 import model.QuoteDoer;
@@ -18,6 +19,11 @@ public class DoerController {
 
     @Autowired
     private DoerService doerService;
+
+    @GetMapping("/autowiredAdmin")
+    public String autowiredPage() {
+        return "autowiredAdmin";
+    }
 
     @GetMapping("/")
     public String mainPage() {
@@ -69,6 +75,7 @@ public class DoerController {
         }
     }
 
+
     @RequestMapping(value = "/likesQuote", method = RequestMethod.GET)
     public String likesQuote(@RequestParam(name = "idQuote") Integer id,
                              @RequestParam(name = "idDoer") Integer idDoer,
@@ -100,6 +107,47 @@ public class DoerController {
     public String FindQuotes() {
         return "FindQuote";
     }
+
+    @RequestMapping(value = "/autowiredAdmin", method = RequestMethod.POST)
+    public String autowiredAdmin(@RequestParam(name = "login") String login,
+                                 @RequestParam(name = "password") String password, Model model) {
+        List<Admin> adminList = doerService.findAdminFromAdminsTable(login, password);
+        if (!adminList.isEmpty()) {
+            List<DoerAndQuote> doerAndQuote = doerService.selectDoerAndQuoteByAdminTable();
+            model.addAttribute("resultBySelectAdminAutowired", doerAndQuote);
+        } else {
+            model.addAttribute("completeAutowired", "ошибка авторизации");
+
+        }
+        return "adminTableQuote";
+    }
+
+    @RequestMapping(value = "/trueCompleteQuoteFromAdminTableToMainTable", method = RequestMethod.GET)
+    public String trueComplete(@RequestParam(name = "idDoer") Integer idDoer,
+                               @RequestParam(name = "idQuote") Integer idQuote,
+                               @RequestParam(name = "textQuote") String textQuote,
+                               Model model)
+    {
+        doerService.insertIntoMainTableFromAdmin(idQuote,idDoer,textQuote);
+        doerService.deleteQuoteFromAdminTable(idDoer,idQuote);
+        model.addAttribute("completeAutowired","цитата добавлена");
+        List<DoerAndQuote> doerAndQuote = doerService.selectDoerAndQuoteByAdminTable();
+        model.addAttribute("resultBySelectAdminAutowired", doerAndQuote);
+        return "adminTableQuote";
+    }
+
+    @RequestMapping(value = "/falseCompleteQuoteFromAdminTableToMainTable", method = RequestMethod.GET)
+    public  String falseComplete(@RequestParam(name = "idQuote") Integer idQuote,
+                                 @RequestParam(name = "idDoer") Integer idDoer,
+                                 Model model){
+        doerService.deleteQuoteFromAdminTable(idDoer,idQuote);
+        model.addAttribute("completeAutowired","цитата удалена");
+        List<DoerAndQuote> doerAndQuote = doerService.selectDoerAndQuoteByAdminTable();
+        model.addAttribute("resultBySelectAdminAutowired", doerAndQuote);
+        return "adminTableQuote";
+    }
+
+
 
 
     @RequestMapping(value = "/addDoerAndQuote", method = RequestMethod.POST)
