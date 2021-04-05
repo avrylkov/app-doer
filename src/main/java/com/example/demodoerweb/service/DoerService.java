@@ -63,7 +63,7 @@ public class DoerService {
         jdbcTemplate.update(sqlInsertQuote, idDoer, quote);
     }
 
-    private static final String sqlInsertQuote = "insert into quote\n" +
+    private static final String sqlInsertQuote = "insert into adminTableQuote\n" +
             "  (id, id_doer, text)\n" +
             "values\n" +
             " ((select nextval('QUOTE_SEQ')), ?, ?)";
@@ -162,7 +162,7 @@ public class DoerService {
         return  jdbcTemplate.query(sqlSelectDoerAndQuoteFromAdminTable,BeanPropertyRowMapper.newInstance(DoerAndQuote.class));
     }
 
-    public  static final String sqlInsertIntoMainTableFromAdmin = "insert into QUOTE(id,id_doer,text)\n" +
+    public  static final String sqlInsertIntoMainTableFromAdmin = "insert into quote(id,id_doer,text)\n" +
             "values(?,?,?);";
     public void insertIntoMainTableFromAdmin(Integer idQuote, Integer idDoer, String textQuote){
          jdbcTemplate.update(sqlInsertIntoMainTableFromAdmin,idQuote,idDoer,textQuote);
