@@ -14,19 +14,48 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="margin">
 
 <style>
     .layer1 {
-        position: relative; /* Относительное позиционирование */
-        background: #f0f0f0; /* Цвет фона */
-        height: 200px; /* Высота блока */
+
     }
     .layer2 {
         position: absolute; /* Абсолютное позиционирование */
         margin-top:10px;
         left: 50px;
         height: 200px;
+    }
+</style>
+
+<style>
+    .margin {
+
+        margin: 0;
+        padding: 0;
+        background-color: burlywood;
+        border-radius: 1px 1px 1px 1px;
+        border-color: rgb(172, 107, 23);
+        font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    }
+
+</style>
+
+<style>
+    .center{
+        Display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+</style>
+
+<style>
+    .body1{
+        background-color: burlywood;
+        border-radius: 1px 1px 1px 1px;
+        border-color: rgb(172, 107, 23);
+        font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
     }
 </style>
 
@@ -44,8 +73,9 @@
 </style>
 <div th:insert="~{banner :: topBanner}" class="sticky" ></div>
 
-<form name="formSearchQuote" action="formSearchQuote" method="POST">
-    <label for="quoteSearch">Поиск Цитаты</label>
+<form name="formSearchQuote" action="formSearchQuote" method="POST" class="center">
+    <label for="quoteSearch" style="padding-right: 10px">Поиск Цитаты  </label>
+
     <input id="quoteSearch" name="chars" type="text" autocomplete="off" placeholder="начните ввод" list="quote-datalist"
            onkeyup="charsQuote()">
 
@@ -57,11 +87,11 @@
 <datalist id="quote-datalist"></datalist>
 
 
-    <table>
+    <table style="padding-left: 40px">
         <tr>
-            <th>имя</th>
+            <th th:text="${nameFirstLineInSearchQuote}"></th>
 
-            <th>Цитата</th>
+            <th th:text="${lastNameFirstLineInSearchQuote}"></th>
         </tr>
 
         <tr th:each="doersAndQuote : ${doerAndQuoteResult}">
@@ -75,13 +105,13 @@
 
 
 
-    <div style="margin-top: 10px;" >
+    <div style="margin-top: 10px;" class="center">
 
         <a href="/insertDoer" >Добавить цитату</a>
     </div>
 </div>
 
-<div class="layer2">
+<div class="center">
     <a href="/autowiredAdmin">Авторизоваться</a>
 </div>
 

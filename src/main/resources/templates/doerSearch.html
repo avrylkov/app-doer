@@ -10,10 +10,29 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="margin">
+<style>
+    .margin {
+        margin: 0;
+        padding: 0;
+        background-color: burlywood;
+        border-radius: 1px 1px 1px 1px;
+        border-color: rgb(172, 107, 23);
+        font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    }
+
+</style>
+<style>
+    .center{
+        Display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+</style>
 <div th:insert="~{banner :: topBanner}" ></div>
 
-    <form name="formSearchDoer" action="formSearchDoerByName" method="POST">
+    <form name="formSearchDoer" action="formSearchDoerByName" method="POST" class="center">
         <label for="doerSearch">Поиск деятеля</label>
         <input id="doerSearch" name="chars" type="text" autocomplete="off" placeholder="начните ввод" list="doer-datalist" onkeyup="charsByPerson()">
 
@@ -23,7 +42,7 @@
         <p style="margin-top: -2px; opacity: 0.5">можно вводить<em style="opacity: 1">одну букву, несколько, полное имя</em></p>
     </form>
 
-    <div >
+    <div class="center">
         <a  href="/insertDoer">Добавить цитату</a>
     </div>
 
@@ -32,7 +51,7 @@
 
     <datalist id="doer-datalist"></datalist>
 
-    <ul>
+    <ul style="padding-left: 20px">
         <li th:each="doer: ${doersSearchResult}">
             <a th:href="@{/QuotesDoer(id=${doer.id})}"  th:utext="${doer.name} + ' ' + ${doer.surName}" >
                 <form name="likeDoer" action="likeDoer" method="post">

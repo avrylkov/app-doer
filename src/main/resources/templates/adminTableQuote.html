@@ -7,8 +7,29 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-<div>
+<body class="margin">
+<style>
+    .margin {
+        margin: 0;
+        padding: 0;
+        background-color: burlywood;
+        border-radius: 1px 1px 1px 1px;
+        border-color: rgb(172, 107, 23);
+        font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    }
+
+</style>
+
+<style>
+    .center{
+        Display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+</style>
+
+<div class="center">
     <span th:text="${completeAutowired}"/>
 </div>
 <table>
@@ -17,6 +38,9 @@
 
         <th>Цитата</th>
     </tr>
+    <div>
+        <a href="/mainPage"> <img src="home2.png" style="margin-bottom: 20px;"></a>
+    </div>
 
     <tr th:each="doersAndQuote : ${resultBySelectAdminAutowired}">
         <td><a th:text="${doersAndQuote.name + ' ' + doersAndQuote.surName}"></a></td>

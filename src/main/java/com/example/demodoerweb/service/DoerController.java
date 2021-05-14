@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -246,7 +248,11 @@ public class DoerController {
 
     @RequestMapping(value = "/formSearchQuote", method = RequestMethod.POST)
     public String findQuote(@RequestParam(name = "chars") String chars, Model model) {
+        String nameFirstLineInSearchQuote = "Имя";
+        String lastNameFirstLineInSearchQuote = "Цитата";
         List<DoerAndQuote> doersAndQuote = doSearchDoersAndQuote(chars);
+        model.addAttribute("nameFirstLineInSearchQuote",nameFirstLineInSearchQuote);
+        model.addAttribute("lastNameFirstLineInSearchQuote",lastNameFirstLineInSearchQuote);
         model.addAttribute("doerAndQuoteResult", doersAndQuote);
         return "FindQuote";
     }
